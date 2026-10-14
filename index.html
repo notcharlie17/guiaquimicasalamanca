@@ -350,6 +350,9 @@ details>summary .chip{flex-shrink:0;max-width:none}
 .acc{display:inline-flex;flex-direction:column-reverse;align-items:center;line-height:.9}.acc i{font-style:normal;font-size:.7em;line-height:.6}
 .fr{vertical-align:middle}
 
+#acctBtn span span{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pAlias{padding:8px 10px;font-size:1rem}
+@media (max-width:560px){.topbar7{gap:6px;padding:8px 10px}.topbar7 .brand{font-size:.92rem;min-width:0;overflow:hidden;white-space:nowrap;flex-shrink:1}.topbar7>*{flex-shrink:0}.topbar7 .brand{flex-shrink:1}#themeBtn{font-size:0;width:38px;padding:0}#themeBtn::before{content:"\263E";font-size:1.1rem}.topbar7 [data-inbox]{font-size:0}.topbar7 [data-inbox]::before{content:"+ Subir";font-size:.85rem}#acctBtn span span{max-width:70px}}
 </style>
 </head>
 <body>
@@ -1355,7 +1358,7 @@ const norm=t=>String(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
 
 function safe(h){return String(h).replace(/<\s*(script|style|iframe|object|embed|img|svg|link|meta)[^>]*>[\s\S]*?(<\s*\/\s*\1\s*>)?/gi,"").replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,"").replace(/javascript:/gi,"")}
 function deepSafe(x){if(typeof x==="string")return safe(x);if(Array.isArray(x))return x.map(deepSafe);if(x&&typeof x==="object"){const o={};for(const k in x)o[k]=deepSafe(x[k]);return o}return x}
-const ERRS={login_required:"Inicia sesión con tu correo @usal.es para usar la IA (botón «Entrar», arriba).",permission_denied:"No tienes permiso para guardar esto: entra con tu correo @usal.es.",not_granted:"Inicia sesión con tu correo @usal.es para usar la IA.",sampling_disabled:"La IA no está disponible en esta cuenta.",rate_limited:"Demasiadas consultas seguidas.",session_expired:"Tu sesión ha caducado: vuelve a iniciar sesión.",image_rejected:"Una imagen no se ha podido leer.",refused:"La IA no ha respondido a esta petición.",prompt_too_large:"El material es demasiado largo para una sola consulta.",invalid_json:"La respuesta salió cortada o mal formada.",upstream_error:"Se ha cortado la conexión con la IA.",no_sample:"La IA no está disponible en esta vista."};
+const ERRS={daily_limit:"Has llegado al límite diario de consultas a la IA. Mañana se renueva.",login_required:"Entra o crea una cuenta para usar la IA (botón «Entrar», arriba).",permission_denied:"No tienes permiso para guardar esto: entra con tu cuenta.",not_granted:"Entra con tu cuenta para usar la IA.",sampling_disabled:"La IA no está disponible en esta cuenta.",rate_limited:"Demasiadas consultas seguidas.",session_expired:"Tu sesión ha caducado: vuelve a iniciar sesión.",image_rejected:"Una imagen no se ha podido leer.",refused:"La IA no ha respondido a esta petición.",prompt_too_large:"El material es demasiado largo para una sola consulta.",invalid_json:"La respuesta salió cortada o mal formada.",upstream_error:"Se ha cortado la conexión con la IA.",no_sample:"La IA no está disponible en esta vista."};
 const errMsg=e=>ERRS[e?.code]||(e?.message?String(e.message):"Error inesperado.");
 function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600)}
 const fmtDate=(d,o={day:"numeric",month:"short"})=>new Date(d+"T12:00:00").toLocaleDateString("es-ES",o);
@@ -1423,7 +1426,7 @@ window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$
 
 /* ---------- Claude: llamadas robustas con reintentos ---------- */
 let db=null, uid=null, sample=null, imgMax=0;
-const FATAL=new Set(["cancelled","not_granted","sampling_disabled","prompt_too_large","session_expired","image_rejected","no_sample"]);
+const FATAL=new Set(["daily_limit","login_required","permission_denied","cancelled","not_granted","sampling_disabled","prompt_too_large","session_expired","image_rejected","no_sample"]);
 async function ai(kind,prompt,opts={}){
   if(!sample)throw{code:"no_sample"};
   let last,p=prompt;
@@ -1912,7 +1915,7 @@ document.addEventListener("click",async e=>{
   const T=temasOf().find(t=>temaMatch(it,t.k)); const key=(T?.k||it.temaG||CUR.name).replace(/[^\w áéíóúñ·-]/gi,"").slice(0,80);
   const cached=(CUR.theoryAI||{})[key];
   if(cached){openModal(esc(T?.t||key),apuntesHTML(T?.t||key,cached,"Resumen generado a partir de tus apuntes.")+stH,push);return}
-  if(!sample){openModal(esc(T?.t||key),(stH||`<p class="muted">El resumen de teoría lo genera la IA: inicia sesión con tu correo @usal.es. Mientras tanto, mira la sección Teoría.</p>`),push);return}
+  if(!sample){openModal(esc(T?.t||key),(stH||`<p class="muted">El resumen de teoría lo genera la IA: inicia sesión con tu cuenta. Mientras tanto, mira la sección Teoría.</p>`),push);return}
   openModal(esc(T?.t||key),'<p class="muted">Preparando el resumen del tema…</p>',push);
   try{const D=docsForTema(T?.t||key);const notes=(D.length?D:(CUR.docs||[]).filter(d=>d.tipo==="apuntes")).map(d=>`${d.titulo||d.name}: ${(d.x||d.resumen||"").slice(0,5000)}`).join("\n").slice(0,40000);
     const r=await ai("text",THEORYPROMPT(T?.t||it.temaG||key,notes,`Céntrate en lo necesario para este ejercicio: «${plain(it.s).slice(0,500)}».`),{modelTier:"default",cache:true});
@@ -1927,7 +1930,7 @@ function flashList(){return flashCards().filter(c=>(FL.t==="all"||c.t===FL.t)&&(
 SECRENDER.fichas=()=>renderFlash();
 function renderFlash(){
   const C=flashCards(), box=$("#flashBody");
-  if(!C.length){box.innerHTML=`<div class="card"><p style="margin:0">Genera fichas a partir del material: conceptos clave y fórmulas de cada tema.</p><div class="actions"><button class="btn" id="flGen" ${sample&&(CUR.docs||[]).some(d=>d.status==="ok")?"":"disabled"}>Generar fichas con IA</button><span class="muted" id="flMsg">${sample?((CUR.docs||[]).some(d=>d.status==="ok")?"":"Primero sube material."):"Necesita la IA: inicia sesión con tu correo @usal.es."}</span></div></div>`;$("#flTema").innerHTML="";$("#flStats").textContent="";return}
+  if(!C.length){box.innerHTML=`<div class="card"><p style="margin:0">Genera fichas a partir del material: conceptos clave y fórmulas de cada tema.</p><div class="actions"><button class="btn" id="flGen" ${sample&&(CUR.docs||[]).some(d=>d.status==="ok")?"":"disabled"}>Generar fichas con IA</button><span class="muted" id="flMsg">${sample?((CUR.docs||[]).some(d=>d.status==="ok")?"":"Primero sube material."):"Necesita la IA: inicia sesión con tu cuenta."}</span></div></div>`;$("#flTema").innerHTML="";$("#flStats").textContent="";return}
   const temas=[...new Set(C.map(c=>c.t))];
   $("#flTema").innerHTML='<option value="all">Todos los temas</option>'+temas.map(t=>`<option value="${esc(t)}" ${t===FL.t?"selected":""}>${esc(t)}</option>`).join("");
   $("#flRepOnly").checked=FL.rep;
@@ -2047,7 +2050,7 @@ function renderCourse(r){
    ${L.some(c=>c.semNote)?`<p class="muted" style="font-size:.88rem;margin:0">${L.filter(c=>c.semNote).map(c=>esc(c.name)+": "+esc(c.semNote)).join(" ")}</p>`:""}
    ${ex.length?`<div class="stack"><h2>Otras asignaturas</h2><div class="grid">${ex.map(s=>`<button class="scard" data-route='${esc(JSON.stringify({v:"subj",id:s.id,sec:"resumen"}))}'><h3>${esc(s.name)}</h3>${progHTML(subjPct(s.id))}</button>`).join("")}</div></div>`:""}
    <details class="card" style="padding:0"><summary><h3>Añadir otra asignatura</h3></summary><form class="inner" id="newForm"><div class="split"><div class="field"><label for="nsName">Nombre</label><input type="text" id="nsName" required></div></div><div class="actions"><button class="btn" type="submit">Crear</button><span class="muted" id="nsMsg"></span></div></form></details>`;
-  $("#newForm").onsubmit=async e=>{e.preventDefault();if(!db||!uid){$("#nsMsg").textContent="Inicia sesión con tu correo @usal.es para guardar asignaturas.";return}const name=$("#nsName").value.trim();if(!name)return;const id="s"+Date.now().toString(36);try{await db.doc(`${base()}/${id}`).set({kind:"subject",name,curso:String(r.c),created:Date.now(),docCount:0,analyzedAt:0});SUBJECTS_EXTRA.push({id,name,curso:String(r.c)});go({v:"subj",id,sec:"material"})}catch(err){$("#nsMsg").textContent=errMsg(err)}};
+  $("#newForm").onsubmit=async e=>{e.preventDefault();if(!db||!uid){$("#nsMsg").textContent="Inicia sesión con tu cuenta para guardar asignaturas.";return}const name=$("#nsName").value.trim();if(!name)return;const id="s"+Date.now().toString(36);try{await db.doc(`${base()}/${id}`).set({kind:"subject",name,curso:String(r.c),created:Date.now(),docCount:0,analyzedAt:0});SUBJECTS_EXTRA.push({id,name,curso:String(r.c)});go({v:"subj",id,sec:"material"})}catch(err){$("#nsMsg").textContent=errMsg(err)}};
 }
 async function loadExtraSubjects(){if(!db||!uid)return;try{const q=await db.collection(base()).get();SUBJECTS_EXTRA=q.docs.filter(d=>d.data()?.kind==="subject"&&!CATMAP[d.id]).map(d=>({id:d.id,...d.data()}));q.docs.forEach(d=>{const x=d.data()||{};if(x.kind==="subject")DOCN[d.id]=x.docCount||0;if(d.id==="hashes"&&x.map)HASHES=x.map;if(d.id==="overrides"&&x.map){Object.keys(OVR).forEach(k=>delete OVR[k]);Object.assign(OVR,x.map);applyOverrides()}if(d.id==="settings"&&Array.isArray(x.mine)){MINE=x.mine;LS.set("qmine",MINE)}});q.docs.filter(d=>d.id.startsWith("prog_")).forEach(d=>{const x=d.data()||{};const id=d.id.slice(5);if(!(CUR&&CUR.id===id))PSUM[id]={pct:x.passed?100:(x.pct||0),passed:x.passed||null}});if(ROUTE.v==="course")renderCourse(ROUTE);else if(ROUTE.v==="home")renderHome();else if(ROUTE.v==="plan")renderPlanChoice();renderNav()}catch(e){}}
 
@@ -2089,7 +2092,7 @@ function renderResumen(){
    ${(p.slots||[]).map(s=>`<details><summary><h3>${s.title}</h3><span class="eyebrow">${s.items.length} candidatos</span></summary><div class="inner">${s.items.map(it=>`<div class="row"><div style="min-width:0"><b>${it.n}</b>${it.rep?' <span class="chip rep">REPETIDO</span>':""}<small>${it.d||""}</small><div class="chips" style="margin-top:4px">${(it.tags||[]).map(t=>`<span class="chip hit">${esc(t)}</span>`).join("")}${it.ref&&S.refs[it.ref]?`<a class="chip" href="#" data-item="${esc(it.ref)}">${esc(S.refs[it.ref].label)}</a>`:""}</div></div><div><div class="bar"><i style="width:${Math.min(100,+it.p||0)}%"></i></div><div class="pct">${+it.p||0} %</div></div></div>`).join("")}</div></details>`).join("")}
    ${(p.testdist||[]).length?(()=>{const max=Math.max(1,...p.testdist.map(d=>+d[1]||0)),tot=p.testdist.reduce((a,d)=>a+(+d[1]||0),0)||1;return `<div class="card"><h3>El test: reparto por temas</h3><p class="muted" style="margin:0">${p.testNote||""}</p><div class="tbars">${p.testdist.map(([n,v])=>`<div class="tbar"><span>${esc(n)}</span><div class="bar"><i style="width:${(+v||0)/max*100}%"></i></div><span class="num">${Math.round((+v||0)/tot*100)} %</span></div>`).join("")}</div></div>`})():""}
    ${p.aviso?`<div class="callout warn">${p.aviso}</div>`:""}`
-  :`<div class="callout"><h3>${RUNNING?"Analizando la asignatura…":"Aún no hay predicción"}</h3><p style="margin:.3rem 0 0">${RUNNING?`Puedes seguir el progreso en <a href="#" data-sec="material">Material</a>. Cuando termine aparecerán aquí la predicción, los simulacros y el test.`:S.docs?.some(d=>d.status==="ok")?`Ya hay ${S.docs.filter(d=>d.status==="ok").length} documentos leídos. Falta analizarlos para sacar la plantilla del examen, lo que se repite, los simulacros y el test.`:`Sube exámenes, hojas y apuntes en <a href="#" data-sec="material">Material</a>.`}</p>${!RUNNING&&S.docs?.some(d=>d.status==="ok")?`<div class="actions"><button class="btn" data-analyze>Analizar ahora</button><span class="muted">${sample&&db?"Unos minutos; usa la IA de la web.":"Necesita iniciar sesión con tu correo @usal.es."}</span></div>`:""}</div>
+  :`<div class="callout"><h3>${RUNNING?"Analizando la asignatura…":"Aún no hay predicción"}</h3><p style="margin:.3rem 0 0">${RUNNING?`Puedes seguir el progreso en <a href="#" data-sec="material">Material</a>. Cuando termine aparecerán aquí la predicción, los simulacros y el test.`:S.docs?.some(d=>d.status==="ok")?`Ya hay ${S.docs.filter(d=>d.status==="ok").length} documentos leídos. Falta analizarlos para sacar la plantilla del examen, lo que se repite, los simulacros y el test.`:`Sube exámenes, hojas y apuntes en <a href="#" data-sec="material">Material</a>.`}</p>${!RUNNING&&S.docs?.some(d=>d.status==="ok")?`<div class="actions"><button class="btn" data-analyze>Analizar ahora</button><span class="muted">${sample&&db?"Unos minutos; usa la IA de la web.":"Necesita iniciar sesión con tu cuenta."}</span></div>`:""}</div>
    ${(()=>{const R=(S.test||[]).filter(q=>q[7]>1).slice(0,12);return R.length?`<div class="card"><h3>Preguntas que más se repiten en tus documentos</h3><ol class="tight">${R.map(q=>`<li>${q[2]} <span class="chip rep">${q[7]} veces</span></li>`).join("")}</ol><div class="actions"><a class="btn ghost" href="#" data-sec="test">Practicarlas en Test</a></div></div>`:""})()}`}
   <div class="acc"><h3 style="margin-bottom:8px">Guía docente</h3>${L("Temario"+(c.temarioSrc?` <span class="muted" style="font-size:.85rem;font-weight:400">(según ${esc(c.temarioSrc)})</span>`:""),c.temario)||`<p class="muted">Temario: ${NOENC}.</p>`}${L("Prácticas y seminarios",c.practicas)}${L("Evaluación",c.eval)}${L("Bibliografía básica",c.biblio)}</div>`;
 }
@@ -2113,7 +2116,7 @@ function renderTeoria(){
     return `<details data-teo="${esc(t.k)}"><summary><h3>${esc(t.t)}</h3>${(th||ai)?'<span class="chip ok">resumen</span>':""}</summary><div class="inner">${th?apuntesHTML(t.t,th.h,"Resumen elaborado a partir de las diapositivas oficiales 2026‑27."):ai?apuntesHTML(t.t,ai,`Resumen generado a partir de tus apuntes${D.length?` (${D.length} documentos de este tema)`:""}.`):`<div class="actions"><button class="btn ghost" data-teogen="${esc(t.k)}">Generar resumen con IA</button><span class="muted"></span></div>`}${D.length?`<p class="muted" style="margin:6px 0 0;font-size:.9rem">Apuntes de este tema: ${D.map(d=>esc(d.titulo||d.name)).join(" · ")}</p>`:""}${S.structs?.length&&th?`<p style="margin:6px 0 0;font-size:.92rem">Estructuras de problema de este tema: ${(TEMA2E[t.k]||[]).map(e=>`<a href="#" data-goest="${e}">${e} · ${esc(sname(e))}</a>`).join(" · ")||"—"}</p>`:""}</div></details>`}).join(""):`<p class="muted">Temario: ${NOENC}. Sube apuntes en Material.</p>`}`;
 }
 document.addEventListener("click",async e=>{const b=e.target.closest("[data-teogen]");if(!b)return;const key=b.dataset.teogen;const msg=b.nextElementSibling;const inner=b.closest(".inner");
-  if(!sample){msg.textContent="El resumen lo genera la IA: inicia sesión con tu correo @usal.es.";return}
+  if(!sample){msg.textContent="El resumen lo genera la IA: inicia sesión con tu cuenta.";return}
   b.disabled=true;msg.textContent="Preparando el resumen…";
   try{const D=docsForTema(key);const notes=(D.length?D:(CUR.docs||[]).filter(d=>d.tipo==="apuntes")).map(d=>`### ${d.titulo||d.name}\n${(d.x||d.resumen||"").slice(0,6000)} ${(d.items||[]).filter(i=>i.k==="concepto").map(i=>i.e).join(" | ")}`).join("\n\n").slice(0,45000);
    const r=await ai("text",THEORYPROMPT(key,notes),{modelTier:"default",cache:true});
@@ -2136,7 +2139,7 @@ async function drawReports(){const L=await loadReports();$("#repList").innerHTML
 $("#repForm").onsubmit=async e=>{e.preventDefault();const ctx=REPCTX&&REPCTX.S.id===$("#repSubj").value?REPCTX:null;
   const r={id:"r"+Date.now().toString(36),type:$("#repType").value,subj:$("#repSubj").value,item:$("#repItem").value.trim(),itemId:ctx?.id||"",msg:$("#repMsg").value.trim(),at:Date.now(),status:sample?"revisando":"pendiente"};if(!r.msg)return;
   const ok=await saveReport(r);
-  $("#repMsg").value="";$("#repItem").value="";REPCTX=null;$("#repStatus").textContent=ok?"Enviado. "+(sample?"Lo estoy revisando…":"Se revisará cuando inicies sesión con tu correo @usal.es."):"Guardado en este navegador.";drawReports();
+  $("#repMsg").value="";$("#repItem").value="";REPCTX=null;$("#repStatus").textContent=ok?"Enviado. "+(sample?"Lo estoy revisando…":"Se revisará cuando inicies sesión con tu cuenta."):"Guardado en este navegador.";drawReports();
   if(sample)processReport(r,ctx).then(()=>{$("#repStatus").textContent="Revisado: mira la respuesta en «Mis avisos».";drawReports()});};
 async function saveReport(r){let ok=false;if(db&&uid){try{await db.doc(`${base()}/feedback/items/${r.id}`).set(JSON.parse(JSON.stringify({...r,synced:true})));ok=true}catch(err){}}
   if(!ok){const L=LS.get("qreports",[]).filter(x=>x.id!==r.id);L.push(r);LS.set("qreports",L)}return ok}
@@ -2175,7 +2178,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest("[data-undo
 document.addEventListener("click",e=>{const b=e.target.closest("[data-report]");if(!b)return;const S=CUR;REPPRE={s:S?.id||"",i:b.dataset.report,t:"Error en una solución"};REPCTX=S?{S,item:S.refs[b.dataset.rid]||null,id:b.dataset.rid}:null;go({v:"report"})});
 let REPCTX=null;
 
-document.addEventListener("click",e=>{const b=e.target.closest("[data-analyze]");if(!b||!CUR)return;if(!sample||!db){toast("El análisis necesita iniciar sesión con tu correo @usal.es.");return}go({v:"subj",id:CUR.id,sec:"material"});setTimeout(()=>runAnalysis(0),100)});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-analyze]");if(!b||!CUR)return;if(!sample||!db){toast("El análisis necesita iniciar sesión con tu cuenta.");return}go({v:"subj",id:CUR.id,sec:"material"});setTimeout(()=>runAnalysis(0),100)});
 
 document.addEventListener("submit",e=>{if(e.target.id!=="passForm"||!CUR)return;e.preventDefault();const n=parseFloat(String($("#passNota").value).replace(",","."));PROG.passed={d:today(),nota:n>=5&&n<=10?Math.round(n*10)/10:null};progSave();computeProgress();renderResumen();renderNav();toast("¡Enhorabuena! Asignatura marcada como aprobada")});
 document.addEventListener("click",e=>{if(!e.target.closest("[data-unpass]")||!CUR)return;delete PROG.passed;progSave();computeProgress();renderResumen();renderNav()});
@@ -2265,7 +2268,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest("[data-reso
 function offlineSol(it,partial){
   const st=(CUR.structs||[]).find(s=>s.id===it.est);
   const ch=chartFor(it.id,it);
-  if(!st)return `${ch}<p class="muted">${partial?"":"La solución de este ejercicio la genera la IA y ahora no está disponible. "}Inicia sesión con tu correo @usal.es, o pregunta en el Tutor IA.</p>`;
+  if(!st)return `${ch}<p class="muted">${partial?"":"La solución de este ejercicio la genera la IA y ahora no está disponible. "}Inicia sesión con tu cuenta, o pregunta en el Tutor IA.</p>`;
   return `<div class="callout warn" style="margin-bottom:8px">${partial?"Mientras tanto, ":"Sin conexión con la IA: "}aquí tienes el método de su estructura para resolverlo tú.</div>${ch}<p style="margin:0"><b>Estructura:</b> ${st.n}</p><h4>Algoritmo</h4><ol class="tight">${(st.alg||[]).map(x=>`<li>${x}</li>`).join("")}</ol>${(st.apr||[]).length?`<h4>Aproximaciones</h4><ul class="tight">${st.apr.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}${(st.tr||[]).length?`<h4>Trampas</h4><ul class="tight">${st.tr.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}`;
 }
 /* Pregunta libre sobre un problema concreto, con todo su contexto */
@@ -2403,7 +2406,7 @@ $("#simGen").onsubmit=async e=>{
   let pool=allItems().filter(x=>(allT||[...temas].some(k=>temaMatch(x,k)))&&(dif==="all"||dif.includes(String(x.dif||2))));
   let items=[];
   if(mode==="new"){
-    if(!sample){$("#sgMsg").textContent="Los problemas inéditos los genera la IA: inicia sesión con tu correo @usal.es.";return}
+    if(!sample){$("#sgMsg").textContent="Los problemas inéditos los genera la IA: inicia sesión con tu cuenta.";return}
     $("#sgMsg").textContent="Creando problemas nuevos con IA…";
     const base=pickItems(pool,n,"prob");
     try{for(let i=0;i<base.length;i++){$("#sgMsg").textContent=`Creando problema ${i+1} de ${base.length}…`;items.push(await genSimilar(base[i],i))}}catch(err){$("#sgMsg").textContent=errMsg(err);if(!items.length)return}
@@ -2454,7 +2457,7 @@ function renderQuizFilters(){
 /* explicación paso a paso de una pregunta de test */
 function qExplain(q,a){
   const c=q[4],L=i=>String.fromCharCode(97+i)+")";
-  if(c<0)return `<div class="sol why"><b>Tu documento no marca la respuesta correcta${a>=0?`; tú marcaste la ${L(a)}`:""}.</b>${sample?` <div class="actions"><button class="btn ghost" data-qsolve>Resolver con IA</button><span class="muted"></span></div>`:` <span class="muted">Cuando inicies sesión con tu correo @usal.es se puede resolver con IA (y el análisis de la asignatura las resuelve todas).</span>`}</div>`;
+  if(c<0)return `<div class="sol why"><b>Tu documento no marca la respuesta correcta${a>=0?`; tú marcaste la ${L(a)}`:""}.</b>${sample?` <div class="actions"><button class="btn ghost" data-qsolve>Resolver con IA</button><span class="muted"></span></div>`:` <span class="muted">Cuando inicies sesión con tu cuenta se puede resolver con IA (y el análisis de la asignatura las resuelve todas).</span>`}</div>`;
   const S=(CUR.id==="analitica"&&QSTEPS_IDX[Q.indexOf(q)])||q[6]||null;
   const head=a===undefined||a===-1?`<b class="ok">Respuesta correcta: ${L(c)} ${q[3][c]}</b>`:`<b class="${a===c?"ok":"ko"}">${a===c?"Correcto.":"Incorrecto."}</b> La correcta es la <b>${L(c)}</b> ${q[3][c]}${a!==c?`; tú marcaste la ${L(a)}`:""}.`;
   let steps;
@@ -2568,13 +2571,13 @@ function renderMaterial(){
   $("#matLead").textContent=S.id==="analitica"?"Esta asignatura está estructurada a partir de 116 PDF y documentos oficiales, ya analizados a mano. Lo que subas aquí se lee con IA y se añade a Ejercicios y Test.":`Esta asignatura está estructurada a partir de ${S.nDocs||D.length} PDF y documentos${(BDOCN[S.id]||0)?" (los que me pasaste en tus carpetas)":""}. Puedes añadir más cuando quieras.`;
   const F=D.filter(d=>(ty==="all"||d.tipo===ty)&&(tm==="all"||(d.tema||"Sin tema")===tm)&&(!q||norm(d.name+" "+(d.titulo||"")+" "+(d.tema||"")+" "+(d.path||"")).includes(q)));
   $("#docCount").textContent=`${D.length+(S.id==="analitica"?116:0)} documentos`;
-  const row=d=>`<div class="doc"><div style="min-width:0"><b>${esc(d.titulo||d.name)}</b><div class="chips" style="margin-top:4px">${d.status==="ok"?`<span class="chip hit">${esc(TIPOS[d.tipo]||d.tipo||"?")}</span>${d.anio?`<span class="chip">${esc(d.anio)}</span>`:""}${(d.items||[]).filter(i=>i.k!=="concepto").length?`<span class="chip">${(d.items||[]).filter(i=>i.k!=="concepto").length} ejercicios</span>`:""}${d.tema?`<span class="chip">${esc((l=>l.length>44?l.slice(0,42)+"…":l)(temaLabel(d.tema)))}</span>`:""}`:d.status==="error"?`<span class="chip ko">Error al leer</span>`:`<span class="chip">${esc(d.status||"")}</span>`}${d.pages?`<span class="chip">${d.pages} pág.</span>`:""}${d.builtin?'<span class="chip ok">incluido</span>':""}${d.community?'<span class="chip hit">comunidad</span>':""}</div>${d.path?`<small class="muted">${esc(d.path)}</small>`:""}${d.status==="error"&&d.titulo?`<small class="muted">${esc(d.titulo)}</small>`:""}</div><span class="actions">${d.file_url?`<a class="btn ghost" href="${esc(d.file_url)}" target="_blank" rel="noopener">Original</a>`:""}${d.informe?`<button class="btn ghost" data-docinfo="${esc(d.id)}">Análisis</button>`:""}${d.builtin?(d.x?`<button class="btn ghost" data-docview="${esc(d.id)}">Ver texto</button>`:""):(!d.community||ISOWNER||(uid&&d.by===uid))?`<button class="btn ghost" data-deldoc="${esc(d.id)}">Quitar</button>`:""}</span></div>`;
+  const row=d=>`<div class="doc"><div style="min-width:0"><b>${esc(d.titulo||d.name)}</b><div class="chips" style="margin-top:4px">${d.status==="ok"?`<span class="chip hit">${esc(TIPOS[d.tipo]||d.tipo||"?")}</span>${d.anio?`<span class="chip">${esc(d.anio)}</span>`:""}${(d.items||[]).filter(i=>i.k!=="concepto").length?`<span class="chip">${(d.items||[]).filter(i=>i.k!=="concepto").length} ejercicios</span>`:""}${d.tema?`<span class="chip">${esc((l=>l.length>44?l.slice(0,42)+"…":l)(temaLabel(d.tema)))}</span>`:""}`:d.status==="error"?`<span class="chip ko">Error al leer</span>`:`<span class="chip">${esc(d.status||"")}</span>`}${d.pages?`<span class="chip">${d.pages} pág.</span>`:""}${d.builtin?'<span class="chip ok">incluido</span>':""}${d.community?'<span class="chip hit">comunidad</span>':""}${d.byName?`<span class="chip" style="display:inline-flex;align-items:center;gap:4px">${avatarSVG(d.byAv,16)}${esc(d.byName)}</span>`:""}</div>${d.path?`<small class="muted">${esc(d.path)}</small>`:""}${d.status==="error"&&d.titulo?`<small class="muted">${esc(d.titulo)}</small>`:""}</div><span class="actions">${d.file_url?`<a class="btn ghost" href="${esc(d.file_url)}" target="_blank" rel="noopener">Original</a>`:""}${d.informe?`<button class="btn ghost" data-docinfo="${esc(d.id)}">Análisis</button>`:""}${d.builtin?(d.x?`<button class="btn ghost" data-docview="${esc(d.id)}">Ver texto</button>`:""):(!d.community||ISOWNER||(uid&&d.by===uid))?`<button class="btn ghost" data-deldoc="${esc(d.id)}">Quitar</button>`:""}</span></div>`;
   const lib=S.id==="analitica"?ADOCS.map(([g,L])=>`<details><summary><b>${g}</b><span class="chip">${L.length}</span></summary><div class="inner"><ul class="tight">${L.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></details>`).join(""):"";
   const byT={};F.forEach(d=>(byT[d.tipo||"otro"]=byT[d.tipo||"otro"]||[]).push(d));
   $("#docList").innerHTML=lib+(F.length?Object.keys(byT).sort((a,b)=>Object.keys(TIPOS).indexOf(a)-Object.keys(TIPOS).indexOf(b)).map(t=>`<details ${Object.keys(byT).length<3||q?"open":""}><summary><b>${esc(TIPOS[t]||t)}</b><span class="chip">${byT[t].length}</span></summary><div class="inner">${byT[t].map(row).join("")}</div></details>`).join(""):(S.id==="analitica"?"":`<p class="muted">${D.length?"Ningún documento coincide.":"Todavía no hay documentos. Empieza por los exámenes y las hojas de problemas."}</p>`));
   $("#anCard").hidden=!!S.builtin; $("#delCard").hidden=!!S.builtin||!!S.cat;
   $("#anBtn").disabled=!D.some(d=>d.status==="ok")||RUNNING||!sample||!db;
-  $("#anMsg").textContent=!sample?"El análisis necesita la IA: inicia sesión con tu correo @usal.es.":!db?"Para guardar el análisis hay que abrir la página en la web con la sesión iniciada.":$("#anMsg").textContent;
+  $("#anMsg").textContent=!sample?"El análisis necesita la IA: inicia sesión con tu cuenta.":!db?"Para guardar el análisis hay que abrir la página en la web con la sesión iniciada.":$("#anMsg").textContent;
   $("#anWhen").textContent=S.analyzedAt?"Último análisis: "+new Date(S.analyzedAt).toLocaleString("es-ES"):"";
   if(!RUNNING)$("#anSteps").innerHTML=STEPS.map(s=>`<li class="${S.an?.[s.id]?"done":""}"><span class="dot"></span><span>${s.label}</span></li>`).join("");
 }
@@ -2671,11 +2674,10 @@ function inboxRender(){const html=INBOX.length?INBOX.slice().reverse().map(x=>`<
   const dm=$("#dupMsg");if(dm&&CUR){const mine=INBOX.filter(x=>x.from===CUR.id).slice(-4);dm.innerHTML=mine.map(x=>`${esc(x.name)}: ${esc(x.status)}`).join("<br>")}}
 async function handleFiles(files,hint){
   hint=hint===undefined?(CUR?.id||null):hint;
-  if(!WEB.user){webLogin("Para subir documentos, entra con tu correo @usal.es.");return}
-  if(!(WEB.usal||WEB.admin)){toast("Subir documentos es solo para cuentas con correo @usal.es.");return}
-  if(!db){toast("Para guardar documentos inicia sesión con tu correo @usal.es.");return}
+  if(!WEB.user){webLogin("Para subir documentos, entra o crea una cuenta (con cualquier correo).");return}
+  if(!db){toast("Para guardar documentos inicia sesión con tu cuenta.");return}
   if(CANW===false&&!uid){toast("Tu acceso a esta página es de solo lectura.");return}
-  if(!sample){toast("Para leer los documentos hace falta entrar con un correo @usal.es.");return}
+  if(!sample){toast("Para leer los documentos hace falta entrar con tu cuenta.");return}
   const ok=files.filter(f=>f.type==="application/pdf"||f.type.startsWith("image/"));
   if(ok.length<files.length)toast("Solo se pueden subir PDF o imágenes.");
   const affected=new Set();
@@ -2858,7 +2860,7 @@ function offlineAnswer(q){
   const S=CUR.structs||[]; const w=norm(q).split(/[^a-z0-9]+/).filter(x=>x.length>3);
   const score=s=>w.filter(x=>norm(plain(s.n+" "+(s.que||"")+" "+(s.alg||[]).join(" "))).includes(x)).length;
   const best=[...S].sort((a,b)=>score(b)-score(a))[0];
-  if(!best||!score(best))return `<p>Ahora no tengo conexión con la IA, así que no puedo responder libremente. Prueba en <a href="#" data-sec="teoria">Teoría</a> o en <a href="#" data-sec="estructuras">Estructuras</a>, o inicia sesión con tu correo @usal.es.</p>`;
+  if(!best||!score(best))return `<p>Ahora no tengo conexión con la IA, así que no puedo responder libremente. Prueba en <a href="#" data-sec="teoria">Teoría</a> o en <a href="#" data-sec="estructuras">Estructuras</a>, o inicia sesión con tu cuenta.</p>`;
   return `<p><b>Estructura:</b> ${best.n}</p><p class="muted">Sin conexión con la IA: te dejo el método guardado de esta estructura.</p><ol class="tight">${(best.alg||[]).map(x=>`<li>${x}</li>`).join("")}</ol>${(best.tr||[]).length?`<p><b>Trampas:</b></p><ul class="tight">${best.tr.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}`;
 }
 $("#photo").onchange=e=>{photo=e.target.files[0]||null;$("#photoName").textContent=photo?("Foto: "+photo.name):""};
@@ -2931,7 +2933,7 @@ async function initUser(){try{UNS=await window.claude?.use?.("user");if(UNS){ISO
   if(db)try{const s=await db.doc("analisis/_counts").get();if(s.exists)Object.assign(CDOCN,s.data().map||{})}catch(e){}
   if(ROUTE.v==="home")renderHome();else if(ROUTE.v==="course")renderCourse(ROUTE)}
 async function bumpComm(id,d){CDOCN[id]=Math.max(0,(CDOCN[id]||0)+d);try{const ref=db.doc("analisis/_counts");const s=await ref.get();if(s.exists)await ref.update({map:{[id]:CDOCN[id]}});else await ref.set({map:{[id]:CDOCN[id]}})}catch(e){}}
-function shareCtl(){if(CANW===false)return `<p class="muted" style="margin:0;font-size:.88rem">Ahora mismo estás en modo <b>solo lectura</b>: puedes usar todo lo que ha compartido la comunidad, pero no subir documentos. Para subir documentos, <a href="#" onclick="webLogin();return false">entra con tu correo @usal.es</a>.</p>`;
+function shareCtl(){if(CANW===false)return `<p class="muted" style="margin:0;font-size:.88rem">Ahora mismo estás en modo <b>solo lectura</b>: puedes usar todo lo que ha compartido la comunidad, pero no subir documentos. Para subir documentos, <a href="#" onclick="webLogin();return false">entra o crea una cuenta</a>.</p>`;
   return `<label class="tog" style="justify-self:center"><input type="checkbox" class="shareTog" ${SHARE?"checked":""}> Compartir con todos (nutre la IA para todos los que usan la web)</label><p class="muted" style="margin:0;font-size:.82rem">Sube solo material que puedas compartir (apuntes propios, exámenes y hojas de la asignatura). La IA quita nombres de estudiantes; aun así, revisa que no haya datos personales.</p>`}
 document.addEventListener("change",e=>{if(e.target.classList?.contains("shareTog")){SHARE=e.target.checked;LS.set("qshare",SHARE);$$(".shareTog").forEach(x=>x.checked=SHARE)}});
 
@@ -2962,8 +2964,7 @@ document.addEventListener("click",e=>{const c=e.target.closest("[data-whyclose]"
 
 /* ===== Versión web (Vercel + Supabase): sustituye a window.claude ===== */
 const SB_URL="https://kjlkrimplppagbkvvqwx.supabase.co", SB_KEY="sb_publishable_vrF0mEiUCL-haBH-zHTjEA_IJ7ui6Az";
-const WEB={sess:null,user:null,admin:false,usal:false};
-const isUsal=e=>/@usal\.es$/i.test(e||"");
+const WEB={sess:null,user:null,admin:false};
 
 /* ---------- Sesión (Supabase Auth por REST) ---------- */
 const SKEY="qsb_session";
@@ -2997,7 +2998,6 @@ WEB.ready=(async()=>{
   else if(h.get("error_description")){WEB.backErr=h.get("error_description").replace(/\+/g," ");history.replaceState(null,"",location.pathname+location.search)}
   const t=await token();
   if(t){try{WEB.user=await authFetch("user",null,"GET",t)}catch(e){if(e.status===401||e.status===403){sessSave(null);WEB.user=null}}}
-  WEB.usal=isUsal(WEB.user?.email);
   if(WEB.user)try{WEB.admin=!!(await rest("rpc/is_admin",{method:"POST",body:"{}"}))}catch(e){}
 })();
 
@@ -3031,7 +3031,8 @@ function docRef(path){const r=route(path),id=path.split("/").pop();
       return snap(id)},
     async set(body){
       if(r.t==="u"){if(!mine(r.u))throw denied();await rest("user_data",{method:"POST",prefer:"resolution=merge-duplicates,return=minimal",body:JSON.stringify({user_id:r.u,key:r.key,data:body,updated_at:new Date().toISOString()})});return}
-      if(r.t==="c"){if(!WEB.user)throw denied("Inicia sesión con tu correo @usal.es para compartir documentos.");
+      if(r.t==="c"){if(!WEB.user)throw denied("Inicia sesión para compartir documentos.");
+        if(WEB.profile){body={...body,byName:WEB.profile.alias,byAv:WEB.profile.av}}
         const row={id:r.id,subj:String(body.subj||""),name:String(body.name||body.titulo||r.id).slice(0,300),hash:body.hash||null,tema:body.tema!=null?String(body.tema):null,kind:body.tipo||null,by:WEB.user.id,data:body};
         await rest("docs",{method:"POST",prefer:"resolution=merge-duplicates,return=minimal",body:JSON.stringify(row)});return}
       if(r.t==="a"){if(!WEB.user)throw denied();const[s,st]=splitA(r.id);await rest("analisis",{method:"POST",prefer:"resolution=merge-duplicates,return=minimal",body:JSON.stringify({subj:s,step:st,data:body,updated_at:new Date().toISOString()})});return}
@@ -3106,22 +3107,62 @@ webSample.json=async(input,opts={})=>{
   const{text}=await webSample(inp,{...opts,_json:true});const j=parseLoose(text);if(j===undefined)throw{code:"invalid_json",text};return j};
 webSample.limits=async()=>({maxInputBytes:262144,images:{maxCount:4,maxBytes:4e6,mediaTypes:["image/png","image/jpeg","image/webp","image/gif"]}});
 
-const webUser={id:async()=>WEB.user?.id||null,isOwner:async()=>WEB.admin,can:async c=>!!WEB.user&&(WEB.admin||WEB.usal)};
+const webUser={id:async()=>WEB.user?.id||null,isOwner:async()=>WEB.admin,can:async c=>!!WEB.user};
 window.claude={use:async n=>{await WEB.ready;
   if(n==="db")return webDb;
   if(n==="user")return webUser;
-  if(n==="sample")return WEB.user&&(WEB.usal||WEB.admin)?webSample:null;
+  if(n==="sample")return WEB.user?webSample:null;
   return null}};
 
-/* ---------- Pantalla de acceso ---------- */
-function acctBtn(){const b=$("#acctBtn");if(!b)return;b.textContent=WEB.user?(WEB.user.email||"Mi cuenta").replace(/@.*/,""):"Entrar";b.title=WEB.user?WEB.user.email:"Iniciar sesión o crear cuenta"}
+/* ---------- Avatares de química ---------- */
+const AVC=["#2f6fb3","#d6452c","#3f9a5a","#7a2a91","#e08a1e","#0f8b8d","#c2185b","#5b6ee1","#2e7d32","#8d6e63","#00838f","#455a64"];
+const AVS=[
+ ["matraz","Matraz Erlenmeyer",'<path d="M26 13h12M28 13v15L17 48a3 3 0 0 0 3 4h24a3 3 0 0 0 3-4L36 28V13"/><path d="M21.5 41h21l4 7.5-1.5 3H19l-1.5-3z" fill="#fff" stroke="none" opacity=".85"/><circle cx="29" cy="35" r="1.6" fill="#fff" stroke="none"/><circle cx="34" cy="31" r="1.2" fill="#fff" stroke="none"/>'],
+ ["tubo","Tubo de ensayo",'<g transform="rotate(20 32 32)"><path d="M24 10h16M27 10v34a5 5 0 0 0 10 0V10"/><path d="M27 30h10v14a5 5 0 0 1-10 0z" fill="#fff" stroke="none" opacity=".85"/></g>'],
+ ["atomo","Átomo",'<ellipse cx="32" cy="32" rx="20" ry="8"/><ellipse cx="32" cy="32" rx="20" ry="8" transform="rotate(60 32 32)"/><ellipse cx="32" cy="32" rx="20" ry="8" transform="rotate(120 32 32)"/><circle cx="32" cy="32" r="3.5" fill="#fff" stroke="none"/>'],
+ ["benceno","Benceno",'<path d="M32 15l14.7 8.5v17L32 49l-14.7-8.5v-17z"/><circle cx="32" cy="32" r="9"/>'],
+ ["bunsen","Mechero Bunsen",'<path d="M18 52h28M22 52v-4h20v4M28 48V30h8v18"/><path d="M32 8c6 8 8 12 4 17-1 2-7 2-8 0-4-5-1-10 4-17z" fill="#fff" stroke="none" opacity=".9"/>'],
+ ["probeta","Probeta graduada",'<path d="M20 52h24M24 52v-3h16v3M26 49V12M38 49V12M23 12h18M26 20h5M26 26h5M26 32h5M26 38h5"/><rect x="26" y="34" width="12" height="15" fill="#fff" stroke="none" opacity=".85"/>'],
+ ["bureta","Bureta",'<path d="M29 6v34M35 6v34M29 40l3 5 3-5M25 43h14M29 14h3M29 20h3M29 26h3M29 32h3"/><circle cx="32" cy="54" r="2.6" fill="#fff" stroke="none"/>'],
+ ["balon","Matraz de fondo redondo",'<path d="M27 10h10M29.5 10v14M34.5 10v14M29.5 24a14 14 0 1 0 5 0"/><path d="M19.5 40a12.5 12.5 0 0 0 25 0z" fill="#fff" stroke="none" opacity=".85"/>'],
+ ["gafas","Gafas de laboratorio",'<rect x="11" y="24" width="18" height="15" rx="7"/><rect x="35" y="24" width="18" height="15" rx="7"/><path d="M29 30q3-3 6 0M11 30H6M53 30h5"/>'],
+ ["molecula","Molécula",'<path d="M21 41l11-20 11 20M21 41h22"/><circle cx="32" cy="20" r="6.5" fill="#fff" stroke="none"/><circle cx="20" cy="42" r="5.5" fill="#fff" stroke="none"/><circle cx="44" cy="42" r="5.5" fill="#fff" stroke="none"/>'],
+ ["cristal","Cristal",'<path d="M32 10l14 14-14 30-14-30z"/><path d="M18 24h28M26 24l6 30M38 24l-6 30M26 24l6-14M38 24l-6-14"/>'],
+ ["carbono","Carbono",'<rect x="14" y="14" width="36" height="36" rx="4"/><text x="19" y="24" font-size="8" font-family="Arial,sans-serif" fill="#fff" stroke="none">6</text><text x="32" y="43" font-size="20" font-weight="700" text-anchor="middle" font-family="Arial,sans-serif" fill="#fff" stroke="none">C</text>']];
+function avatarSVG(id,size=36){const i=Math.max(0,AVS.findIndex(a=>a[0]===id));const a=AVS[i];
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" role="img" aria-label="${a[1]}" style="flex-shrink:0;border-radius:50%;display:block"><circle cx="32" cy="32" r="32" fill="${AVC[i%AVC.length]}"/><g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${a[2]}</g></svg>`}
+WEB.profile=null;
+
+/* ---------- Pantalla de acceso y perfil ---------- */
+function acctBtn(){const b=$("#acctBtn");if(!b)return;
+  if(!WEB.user){b.textContent="Entrar";b.title="Iniciar sesión o crear cuenta";return}
+  const p=WEB.profile||{};b.innerHTML=`<span style="display:inline-flex;align-items:center;gap:6px">${avatarSVG(p.av,22)}<span>${esc(p.alias||(WEB.user.email||"").replace(/@.*/,""))}</span></span>`;b.title=WEB.user.email}
+async function loadProfile(){if(!WEB.user)return;try{const s=await webDb.doc(`data/users/${WEB.user.id}/profile`).get();WEB.profile=s.exists?s.data():null}catch(e){}}
+function profileForm(first){const p=WEB.profile||{};const sel=p.av||AVS[0][0];
+  openModal(first?"Crea tu perfil":"Tu perfil",`<form id="pForm" style="display:grid;gap:12px">
+    ${first?'<p style="margin:0">Bienvenido. Elige un nombre y una imagen; después marcarás las asignaturas que cursas.</p>':`<p class="muted" style="margin:0">Cuenta: <b>${esc(WEB.user.email)}</b>${WEB.admin?' <span class="chip ok">administrador</span>':""}</p>`}
+    <div class="field"><label for="pAlias">Nombre que verán los demás</label><input id="pAlias" maxlength="24" required value="${esc(p.alias||"")}" placeholder="Por ejemplo: Ana_Q o Mol"></div>
+    <div><div class="muted" style="font-size:.9rem;margin-bottom:6px">Imagen de perfil</div>
+    <div class="avgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px">${AVS.map(a=>`<label style="display:grid;justify-items:center;gap:4px;cursor:pointer;padding:6px;border-radius:10px;border:2px solid ${a[0]===sel?"var(--mn)":"transparent"}" title="${a[1]}"><input type="radio" name="pAv" value="${a[0]}" ${a[0]===sel?"checked":""} style="position:absolute;opacity:0;pointer-events:none">${avatarSVG(a[0],48)}<small class="muted" style="font-size:.7rem;text-align:center;line-height:1.1">${a[1]}</small></label>`).join("")}</div></div>
+    <div class="actions"><button class="btn" type="submit">${first?"Siguiente: mis asignaturas":"Guardar"}</button>${first?"":'<button class="btn ghost" type="button" id="pMine">Mis asignaturas</button><button class="btn ghost" type="button" id="wOut">Cerrar sesión</button>'}</div>
+    <p class="muted" id="pMsg" style="margin:0" role="status"></p></form>`,{after:b=>{
+      b.querySelectorAll('input[name=pAv]').forEach(r=>r.onchange=()=>b.querySelectorAll('.avgrid label').forEach(l=>l.style.borderColor=l.querySelector("input").checked?"var(--mn)":"transparent"));
+      b.querySelector("#pForm").onsubmit=async e=>{e.preventDefault();const alias=b.querySelector("#pAlias").value.trim().slice(0,24);if(!alias){b.querySelector("#pMsg").textContent="Escribe un nombre.";return}
+        const av=b.querySelector('input[name=pAv]:checked')?.value||AVS[0][0];WEB.profile={...(WEB.profile||{}),alias,av,at:Date.now()};
+        try{await webDb.doc(`data/users/${WEB.user.id}/profile`).set(WEB.profile)}catch(err){b.querySelector("#pMsg").textContent="No se ha podido guardar: "+errMsg(err);return}
+        acctBtn();if(first)openMine(true);else{closeModal();toast("Perfil guardado")}};
+      const m=b.querySelector("#pMine");if(m)m.onclick=()=>openMine(false);
+      const o=b.querySelector("#wOut");if(o)o.onclick=async()=>{const t=WEB.sess?.access_token;try{await authFetch("logout",{},"POST",t)}catch(e){}sessSave(null);location.reload()};
+      b.querySelector("#pAlias").focus()}});
+}
+function openMine(first){if(first&&!(MINE&&MINE.length))MINE=["_"];closeModal();const t=document.createElement("button");t.id="pickMine";t.hidden=true;document.body.appendChild(t);t.click();t.remove();if(MINE&&MINE[0]==="_")MINE=null}
 function webLogin(msg,mode){
-  if(WEB.user&&mode!=="recovery"){openModal("Tu cuenta",`<div style="display:grid;gap:10px"><p style="margin:0">Has entrado como <b>${esc(WEB.user.email)}</b>${WEB.admin?' <span class="chip ok">administrador</span>':""}.</p>${WEB.usal||WEB.admin?'<p class="muted" style="margin:0">Puedes subir documentos para todos y usar la IA.</p>':'<p class="muted" style="margin:0">Con este correo puedes guardar tu progreso, pero <b>subir documentos y usar la IA</b> es solo para cuentas <b>@usal.es</b>.</p>'}<div class="actions"><button class="btn ghost" id="wOut">Cerrar sesión</button></div></div>`,{after:b=>{b.querySelector("#wOut").onclick=async()=>{const t=WEB.sess?.access_token;try{await authFetch("logout",{},"POST",t)}catch(e){}sessSave(null);location.reload()}}});return}
+  if(WEB.user&&mode!=="recovery"){profileForm(false);return}
   const rec=mode==="recovery";
   openModal(rec?"Nueva contraseña":"Entrar",`<form id="wForm" style="display:grid;gap:10px">
     ${msg?`<p style="margin:0">${esc(msg)}</p>`:""}
-    ${rec?"":`<p class="muted" style="margin:0;font-size:.92rem">Todo el mundo puede consultar la web. Con una cuenta guardas tu progreso; con un correo <b>@usal.es</b> además puedes <b>subir documentos para todos</b> y <b>usar la IA</b>.</p>
-    <div class="field"><label for="wEmail">Correo</label><input id="wEmail" type="email" autocomplete="email" required placeholder="usuario@usal.es"></div>`}
+    ${rec?"":`<p class="muted" style="margin:0;font-size:.92rem">Todo el mundo puede consultar la web sin cuenta. Con una cuenta (cualquier correo) guardas tu progreso, <b>subes documentos para todos</b> y <b>usas la IA</b>.</p>
+    <div class="field"><label for="wEmail">Correo</label><input id="wEmail" type="email" autocomplete="email" required placeholder="tucorreo@gmail.com"></div>`}
     <div class="field"><label for="wPass">${rec?"Nueva contraseña":"Contraseña"}</label><input id="wPass" type="password" autocomplete="${rec?"new-password":"current-password"}" minlength="6" required placeholder="Mínimo 6 caracteres"></div>
     <div class="actions">${rec?'<button class="btn" type="submit" data-w="new">Guardar contraseña</button>':'<button class="btn" type="submit" data-w="in">Entrar</button><button class="btn ghost" type="button" data-w="up">Crear cuenta</button><button class="btn ghost" type="button" data-w="forgot">He olvidado la contraseña</button>'}</div>
     <p class="muted" id="wMsg" style="margin:0" role="status"></p></form>`,{after:b=>{
@@ -3144,10 +3185,11 @@ function webLogin(msg,mode){
       (b.querySelector("#wEmail")||b.querySelector("#wPass")).focus()}});
 }
 document.addEventListener("click",e=>{if(e.target.closest("#acctBtn"))webLogin()});
-WEB.ready.then(()=>{acctBtn();
-  if(WEB.back==="recovery")webLogin("",'recovery');
-  else if(WEB.back==="signup"&&WEB.user)toast("Correo confirmado: ya has entrado como "+WEB.user.email);
-  else if(WEB.backErr)toast("El enlace no es válido o ha caducado: "+WEB.backErr)});
+WEB.ready.then(async()=>{await loadProfile();acctBtn();
+  if(WEB.back==="recovery"){webLogin("",'recovery');return}
+  if(WEB.backErr)toast("El enlace no es válido o ha caducado: "+WEB.backErr);
+  if(WEB.user&&!WEB.profile)setTimeout(()=>profileForm(true),700);
+  else if(WEB.back==="signup"&&WEB.user)toast("Correo confirmado: ya has entrado.")});
 
 /* ---------- Arranque ---------- */
 try{applyOverrides()}catch(e){}

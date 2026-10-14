@@ -104,9 +104,14 @@ module.exports = async (req, res) => {
   if (!token) return fail(res, 401, "login_required", "Inicia sesión para usar la IA.");
   const user = await sbUser(token).catch(() => null);
   if (!user || !user.email) return fail(res, 401, "login_required", "Tu sesión ha caducado: vuelve a entrar.");
-  const allowed = (process.env.ALLOWED_EMAILS || "").toLowerCase().split(/[,\s]+/).filter(Boolean);
-  const email = user.email.toLowerCase();
-  if (!/@usal\.es$/.test(email) && !allowed.includes(email)) return fail(res, 403, "not_granted", "La IA es solo para cuentas @usal.es.");
+  // Límite diario por persona para controlar el gasto (AI_DAILY_LIMIT, por defecto 40 consultas; los administradores no tienen límite)
+  const limit = parseInt(process.env.AI_DAILY_LIMIT || "40", 10);
+  const rpc = name => fetch(SB_URL + "/rest/v1/rpc/" + name, { method: "POST", headers: { apikey: SB_KEY, authorization: "Bearer " + token, "content-type": "application/json" }, body: "{}" }).then(r => r.ok ? r.json() : null).catch(() => null);
+  const admin = await rpc("is_admin");
+  if (!admin) {
+    const n = await rpc("ai_tick");
+    if (typeof n === "number" && n > limit) return fail(res, 429, "daily_limit", "Has llegado al límite de " + limit + " consultas a la IA por hoy. Mañana se renueva.");
+  }
 
   let body = req.body;
   if (typeof body === "string") { try { body = JSON.parse(body); } catch (e) { body = {}; } }
