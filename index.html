@@ -353,6 +353,36 @@ details>summary .chip{flex-shrink:0;max-width:none}
 #acctBtn span span{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #pAlias{padding:8px 10px;font-size:1rem}
 @media (max-width:560px){.topbar7{gap:6px;padding:8px 10px}.topbar7 .brand{font-size:.92rem;min-width:0;overflow:hidden;white-space:nowrap;flex-shrink:1}.topbar7>*{flex-shrink:0}.topbar7 .brand{flex-shrink:1}#themeBtn{font-size:0;width:38px;padding:0}#themeBtn::before{content:"\263E";font-size:1.1rem}.topbar7 [data-inbox]{font-size:0}.topbar7 [data-inbox]::before{content:"+ Subir";font-size:.85rem}#acctBtn span span{max-width:70px}}
+#authScreen{position:fixed;inset:0;z-index:80;display:grid;place-items:center;align-content:center;gap:14px;padding:24px 16px;overflow-y:auto;background:var(--soft)}
+#authScreen .au-bg{position:fixed;inset:0;opacity:.5;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='97' viewBox='0 0 84 97'%3E%3Cpath d='M42 2l38 22v45L42 91 4 69V24z' fill='none' stroke='%23888' stroke-opacity='.18' stroke-width='1.5'/%3E%3C/svg%3E");background-size:84px 97px}
+#authScreen .au-card{position:relative;width:100%;max-width:400px;background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(20,24,40,.12);padding:28px 26px 22px;display:grid;gap:12px}
+.au-logo{display:flex;align-items:center;gap:8px;justify-content:center;font:800 1.05rem var(--display);color:var(--ink)}
+.au-logo i{width:26px;height:7px;border-radius:4px;background:linear-gradient(90deg,#d6452c,#e9a23b,#3f9a5a,#2f6fb3,#7a2a91);display:inline-block}
+.au-h{font:800 1.55rem/1.2 var(--display);text-align:center;margin:6px 0 0;color:var(--ink)}
+.au-sub{margin:0;text-align:center;color:var(--muted);font-size:.95rem}
+.au-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:46px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:600 .97rem var(--body);cursor:pointer;margin-top:4px}
+.au-google:hover{background:var(--soft)}
+.au-or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.84rem}
+.au-or::before,.au-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.au-form{display:grid;gap:12px}
+.au-l{display:grid;gap:6px;font:600 .88rem var(--body);color:var(--ink)}
+.au-i{width:100%;height:46px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:0 12px;font:400 1rem var(--body);background:var(--paper);color:var(--ink)}
+.au-i:focus{outline:2px solid var(--mn);outline-offset:1px;border-color:var(--mn)}
+.au-pw{position:relative;display:block}.au-pw .au-i{padding-right:44px}
+.au-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;background:none;color:var(--muted);cursor:pointer;display:grid;place-items:center;border-radius:8px}
+.au-main{height:46px;border:0;border-radius:10px;background:var(--mn);color:var(--paper);font:700 1rem var(--body);cursor:pointer;margin-top:2px}
+.au-main:hover{filter:brightness(1.08)}
+.au-main:disabled,.au-google:disabled{opacity:.6;cursor:default}
+.au-link{background:none;border:0;padding:0;color:var(--mn);font:600 .9rem var(--body);cursor:pointer}
+.au-forgot{justify-self:end;font-size:.84rem;margin-top:-4px}
+.au-msg:empty{display:none}
+.au-msg{margin:0;font-size:.9rem;color:var(--ink);text-align:center}
+.au-switch{margin:2px 0 0;text-align:center;font-size:.92rem;color:var(--muted)}
+.au-legal{margin:4px 0 0;text-align:center;font-size:.76rem;color:var(--muted);line-height:1.4}
+.au-guest{position:relative;background:none;border:0;color:var(--muted);font:600 .92rem var(--body);cursor:pointer;padding:8px}
+.au-guest:hover{color:var(--ink)}
+@media (max-width:420px){#authScreen .au-card{padding:22px 18px 18px}.au-h{font-size:1.35rem}}
+
 </style>
 </head>
 <body>
@@ -3156,36 +3186,67 @@ function profileForm(first){const p=WEB.profile||{};const sel=p.av||AVS[0][0];
       b.querySelector("#pAlias").focus()}});
 }
 function openMine(first){if(first&&!(MINE&&MINE.length))MINE=["_"];closeModal();const t=document.createElement("button");t.id="pickMine";t.hidden=true;document.body.appendChild(t);t.click();t.remove();if(MINE&&MINE[0]==="_")MINE=null}
+
+/* ---------- Acciones de cuenta compartidas ---------- */
+async function doAuth(w,em,pw,M){
+  const back=location.origin+location.pathname;
+  if(w!=="forgot"&&w!=="google"&&(pw||"").length<6){M.textContent="La contraseña debe tener al menos 6 caracteres.";return false}
+  if(w!=="new"&&w!=="google"&&!em){M.textContent="Escribe tu correo.";return false}
+  M.textContent="Un momento…";
+  try{
+    if(w==="google"){location.href=SB_URL+"/auth/v1/authorize?provider=google&redirect_to="+enc(back);return true}
+    if(w==="in"){const j=await authFetch("token?grant_type=password",{email:em,password:pw});sessSave(sessFrom(j));location.reload();return true}
+    if(w==="up"){const j=await authFetch("signup?redirect_to="+enc(back),{email:em,password:pw});if(j.access_token){sessSave(sessFrom(j));location.reload();return true}
+      M.innerHTML=`Cuenta creada. Te hemos enviado un correo a <b>${esc(em)}</b> para confirmarla (mira también en spam).`;return false}
+    if(w==="forgot"){if(!em){M.textContent="Escribe tu correo arriba y vuelve a pulsar.";return false}await authFetch("recover?redirect_to="+enc(back),{email:em});M.textContent="Si el correo tiene cuenta, te llegará un enlace para poner una contraseña nueva.";return false}
+    if(w==="new"){await authFetch("user",{password:pw},"PUT",await token());M.textContent="Contraseña cambiada.";setTimeout(()=>location.reload(),900);return true}
+  }catch(e){M.textContent=e.message||"No se ha podido completar."}
+  return false}
+let GOOGLE=null;
+async function googleOn(){if(GOOGLE!==null)return GOOGLE;try{const r=await fetch(SB_URL+"/auth/v1/settings",{headers:{apikey:SB_KEY}});const j=await r.json();GOOGLE=!!j?.external?.google}catch(e){GOOGLE=false}return GOOGLE}
+const GLOGO='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
+const EYE='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+function authCard(mode,msg){const up=mode==="up";
+  return `<div class="au-logo"><i></i><b>Química USAL</b></div>
+  <h1 class="au-h">${up?"Crea tu cuenta":"Inicia sesión"}</h1>
+  <p class="au-sub">${msg?esc(msg):up?"Guarda tu progreso, sube apuntes y usa la IA para estudiar. Es gratis.":"Bienvenido de nuevo. Entra para seguir donde lo dejaste."}</p>
+  <button type="button" class="au-google" data-au="google" hidden>${GLOGO}<span>Continuar con Google</span></button>
+  <div class="au-or" hidden><span>o con tu correo</span></div>
+  <form class="au-form" data-mode="${up?"up":"in"}" novalidate>
+    <label class="au-l">Correo electrónico<input class="au-i" name="em" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" required></label>
+    <label class="au-l">Contraseña<span class="au-pw"><input class="au-i" name="pw" type="password" autocomplete="${up?"new-password":"current-password"}" placeholder="${up?"Mínimo 6 caracteres":"Tu contraseña"}" minlength="6" required><button type="button" class="au-eye" aria-label="Mostrar contraseña">${EYE}</button></span></label>
+    ${up?"":'<button type="button" class="au-link au-forgot" data-au="forgot">¿Has olvidado la contraseña?</button>'}
+    <button class="au-main" type="submit">${up?"Crear cuenta":"Entrar"}</button>
+    <p class="au-msg" role="status"></p>
+  </form>
+  <p class="au-switch">${up?'¿Ya tienes cuenta? <button type="button" class="au-link" data-au-mode="in">Inicia sesión</button>':'¿No tienes cuenta? <button type="button" class="au-link" data-au-mode="up">Regístrate gratis</button>'}</p>
+  <p class="au-legal">Solo guardamos tu correo, tu perfil y tu progreso. Nunca mostramos tu correo a otros usuarios. Al registrarte aceptas usar la web para estudiar y subir solo material que puedas compartir.</p>`}
+function wireAuth(root,mode,msg){
+  root.innerHTML=authCard(mode,msg);
+  googleOn().then(on=>{if(on){root.querySelector(".au-google").hidden=false;root.querySelector(".au-or").hidden=false}});
+  const f=root.querySelector(".au-form"),M=root.querySelector(".au-msg");
+  const busy=b=>root.querySelectorAll("button,input").forEach(x=>x.disabled=b);
+  f.onsubmit=async e=>{e.preventDefault();busy(true);const ok=await doAuth(f.dataset.mode,f.em.value.trim(),f.pw.value,M);if(!ok)busy(false)};
+  root.querySelector(".au-eye").onclick=()=>{const i=f.pw;i.type=i.type==="password"?"text":"password"};
+  root.querySelectorAll("[data-au]").forEach(b=>b.onclick=async()=>{busy(true);const ok=await doAuth(b.dataset.au,f.em.value.trim(),f.pw.value,M);if(!ok)busy(false)});
+  root.querySelectorAll("[data-au-mode]").forEach(b=>b.onclick=()=>{wireAuth(root,b.dataset.auMode,msg);root.querySelector(".au-i")?.focus()});
+}
+function authScreen(mode="up",msg){
+  let o=$("#authScreen");if(!o){o=document.createElement("div");o.id="authScreen";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","Crear cuenta o iniciar sesión");document.body.appendChild(o)}
+  o.innerHTML=`<div class="au-bg" aria-hidden="true"></div><div class="au-card"></div><button type="button" class="au-guest">Continuar sin cuenta →</button>`;
+  wireAuth(o.querySelector(".au-card"),mode,msg);document.body.style.overflow="hidden";
+  o.querySelector(".au-guest").onclick=()=>{try{sessionStorage.setItem("qguest","1")}catch(e){}o.remove();document.body.style.overflow=""};
+  setTimeout(()=>o.querySelector(".au-i")?.focus(),50);
+}
 function webLogin(msg,mode){
   if(WEB.user&&mode!=="recovery"){profileForm(false);return}
-  const rec=mode==="recovery";
-  openModal(rec?"Nueva contraseña":"Entrar",`<form id="wForm" style="display:grid;gap:10px">
-    ${msg?`<p style="margin:0">${esc(msg)}</p>`:""}
-    ${rec?"":`<p class="muted" style="margin:0;font-size:.92rem">Todo el mundo puede consultar la web sin cuenta. Con una cuenta (cualquier correo) guardas tu progreso, <b>subes documentos para todos</b> y <b>usas la IA</b>.</p>
-    <div class="field"><label for="wEmail">Correo</label><input id="wEmail" type="email" autocomplete="email" required placeholder="tucorreo@gmail.com"></div>`}
-    <div class="field"><label for="wPass">${rec?"Nueva contraseña":"Contraseña"}</label><input id="wPass" type="password" autocomplete="${rec?"new-password":"current-password"}" minlength="6" required placeholder="Mínimo 6 caracteres"></div>
-    <div class="actions">${rec?'<button class="btn" type="submit" data-w="new">Guardar contraseña</button>':'<button class="btn" type="submit" data-w="in">Entrar</button><button class="btn ghost" type="button" data-w="up">Crear cuenta</button><button class="btn ghost" type="button" data-w="forgot">He olvidado la contraseña</button>'}</div>
-    <p class="muted" id="wMsg" style="margin:0" role="status"></p></form>`,{after:b=>{
-      const f=b.querySelector("#wForm"),M=b.querySelector("#wMsg");
-      const go=async w=>{const em=b.querySelector("#wEmail")?.value.trim(),pw=b.querySelector("#wPass").value;
-        if(w!=="forgot"&&pw.length<6){M.textContent="La contraseña debe tener al menos 6 caracteres.";return}
-        if(w!=="new"&&!em){M.textContent="Escribe tu correo.";return}
-        b.querySelectorAll("button").forEach(x=>x.disabled=true);M.textContent="Un momento…";
-        const back=location.origin+location.pathname;
-        try{
-          if(w==="in"){const j=await authFetch("token?grant_type=password",{email:em,password:pw});sessSave(sessFrom(j));location.reload();return}
-          if(w==="up"){const j=await authFetch("signup?redirect_to="+enc(back),{email:em,password:pw});if(j.access_token){sessSave(sessFrom(j));location.reload();return}
-            M.innerHTML=`Cuenta creada. Te hemos enviado un correo a <b>${esc(em)}</b>: pulsa el enlace para confirmarla (mira también en spam) y vuelve a entrar.`}
-          if(w==="forgot"){await authFetch("recover?redirect_to="+enc(back),{email:em});M.textContent="Si el correo tiene cuenta, te llegará un enlace para poner una contraseña nueva."}
-          if(w==="new"){await authFetch("user",{password:pw},"PUT",await token());M.textContent="Contraseña cambiada.";setTimeout(()=>location.reload(),900);return}
-        }catch(e){M.textContent=e.message||"No se ha podido completar."}
-        b.querySelectorAll("button").forEach(x=>x.disabled=false)};
-      f.onsubmit=e=>{e.preventDefault();go(e.submitter?.dataset.w||(rec?"new":"in"))};
-      b.querySelectorAll("button[type=button][data-w]").forEach(x=>x.onclick=()=>go(x.dataset.w));
-      (b.querySelector("#wEmail")||b.querySelector("#wPass")).focus()}});
+  if(mode==="recovery"){openModal("Nueva contraseña",`<form id="wForm" style="display:grid;gap:10px"><div class="field"><label for="wPass">Nueva contraseña</label><input id="wPass" type="password" autocomplete="new-password" minlength="6" required placeholder="Mínimo 6 caracteres"></div><div class="actions"><button class="btn" type="submit">Guardar contraseña</button></div><p class="muted" id="wMsg" style="margin:0" role="status"></p></form>`,{after:b=>{b.querySelector("#wForm").onsubmit=async e=>{e.preventDefault();await doAuth("new","",b.querySelector("#wPass").value,b.querySelector("#wMsg"))};b.querySelector("#wPass").focus()}});return}
+  authScreen(msg?"in":"up",msg);
 }
 document.addEventListener("click",e=>{if(e.target.closest("#acctBtn"))webLogin()});
 WEB.ready.then(async()=>{await loadProfile();acctBtn();
+  let guest=false;try{guest=sessionStorage.getItem("qguest")==="1"}catch(e){}
+  if(!WEB.user&&!WEB.back&&!guest)authScreen("up");
   if(WEB.back==="recovery"){webLogin("",'recovery');return}
   if(WEB.backErr)toast("El enlace no es válido o ha caducado: "+WEB.backErr);
   if(WEB.user&&!WEB.profile)setTimeout(()=>profileForm(true),700);
