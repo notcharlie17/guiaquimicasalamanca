@@ -1,6 +1,716 @@
 {
- "generado": "2026-11-14T19:37:02.529Z",
+ "generado": "2026-11-14T19:41:04.149Z",
  "archivos": [
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-1-WhatsApp-Image-2026-01-22-at-21.12.05.jpeg",
+   "size": 98828,
+   "hash": "e2f385f0d08d9151ae622ede6895ec6fdc41c2ef754ed4f9533d3389d532062f",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-1-WhatsApp-Image-2026-01-22-at-21.12.05.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-2-WhatsApp-Image-2026-01-22-at-21.12.06-1.jpeg",
+   "size": 96395,
+   "hash": "ab7749c42b6402108cadc5e11c663ec29f9c53cb25af0ecf112447fd1a243464",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-2-WhatsApp-Image-2026-01-22-at-21.12.06-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-3-WhatsApp-Image-2026-01-22-at-21.12.06-2.jpeg",
+   "size": 102697,
+   "hash": "3cdb9d7d26f3eea15dc29ec35f5accfe63ba874c74c5cbe6f415bc8ac03f97bd",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-3-WhatsApp-Image-2026-01-22-at-21.12.06-2.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-4-WhatsApp-Image-2026-01-22-at-21.12.06-3.jpeg",
+   "size": 104698,
+   "hash": "410b2a0be98f13ad2b7136a32d20898144825265da322726aecad8bad0db15f4",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-4-WhatsApp-Image-2026-01-22-at-21.12.06-3.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-5-WhatsApp-Image-2026-01-22-at-21.12.06.jpeg",
+   "size": 117045,
+   "hash": "52588f7ddce87055744267841617eb5427ed2d47e9479112bc4fd4cd0dd8f6cf",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-5-WhatsApp-Image-2026-01-22-at-21.12.06.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-6-WhatsApp-Image-2026-01-22-at-21.12.07-1.jpeg",
+   "size": 131923,
+   "hash": "633efbf77e2402ee7a589d307312af7e1351d505c46f279d4060655f510edf65",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-6-WhatsApp-Image-2026-01-22-at-21.12.07-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-7-WhatsApp-Image-2026-01-22-at-21.12.07-2.jpeg",
+   "size": 106309,
+   "hash": "58c8859fa6fc567d8cee27519163ca95dd8a04d82e0929a90891abb82b76deae",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-7-WhatsApp-Image-2026-01-22-at-21.12.07-2.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-8-WhatsApp-Image-2026-01-22-at-21.12.07-3.jpeg",
+   "size": 107898,
+   "hash": "b357b71790e4341e884353945de7f1b9f13caf7cac39d31a5ada921ef302ecb8",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-8-WhatsApp-Image-2026-01-22-at-21.12.07-3.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-9-WhatsApp-Image-2026-01-22-at-21.12.07.jpeg",
+   "size": 103851,
+   "hash": "c183f573403b0e38b604a7718a24327a2d8144028d58575453cc0a8bf01a69cc",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-9-WhatsApp-Image-2026-01-22-at-21.12.07.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-10-WhatsApp-Image-2026-01-22-at-21.12.08-1.jpeg",
+   "size": 136430,
+   "hash": "c80df8284c20dffb0dd0809df675ca00332297764e16bcfdff7022200b8fb9a9",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-10-WhatsApp-Image-2026-01-22-at-21.12.08-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-11-WhatsApp-Image-2026-01-22-at-21.12.08-2.jpeg",
+   "size": 109496,
+   "hash": "422f21edcd3e3bcd3bb0fefe710acccdacd15b01275e006103a869a8abf60da3",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-11-WhatsApp-Image-2026-01-22-at-21.12.08-2.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-12-WhatsApp-Image-2026-01-22-at-21.12.08.jpeg",
+   "size": 102804,
+   "hash": "90b8182265ce45e9f9063b52f77d3cb1022c33921c433436b101eeb775b4e43b",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-12-WhatsApp-Image-2026-01-22-at-21.12.08.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-13-WhatsApp-Image-2026-01-22-at-21.12.09-1.jpeg",
+   "size": 97292,
+   "hash": "4d2cbeefc383ce16ae0f7b91890cb775a240990de37b28edbbadcc2737b350c0",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-13-WhatsApp-Image-2026-01-22-at-21.12.09-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-14-WhatsApp-Image-2026-01-22-at-21.12.09-2.jpeg",
+   "size": 118732,
+   "hash": "27a457fc704d5facfdc71be8dfb825dfbd959ec1af10dde416c39cd23c0d683d",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-14-WhatsApp-Image-2026-01-22-at-21.12.09-2.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-15-WhatsApp-Image-2026-01-22-at-21.12.09.jpeg",
+   "size": 98043,
+   "hash": "7d23a21bdf6772e1aa57875ca698f2ecadf54ce6df0dcfe8f5b2a183863ff943",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-15-WhatsApp-Image-2026-01-22-at-21.12.09.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-16-WhatsApp-Image-2026-01-22-at-21.12.10-1.jpeg",
+   "size": 114137,
+   "hash": "dee183e83310f5853cd9966e2f5316f0dd33c382ab64f27f24816d68db0ae2cf",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-16-WhatsApp-Image-2026-01-22-at-21.12.10-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-17-WhatsApp-Image-2026-01-22-at-21.12.10.jpeg",
+   "size": 100716,
+   "hash": "47fbb2edd43d37f681cd4749037255b38f24f66693dcb313a826eed18e943fdd",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-17-WhatsApp-Image-2026-01-22-at-21.12.10.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-18-WhatsApp-Image-2026-01-22-at-21.12.11-1.jpeg",
+   "size": 133702,
+   "hash": "cdaaa9232881de32e84479cb079b659290167342aaa7e9d59dfc8ebedeab9cab",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-18-WhatsApp-Image-2026-01-22-at-21.12.11-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-19-WhatsApp-Image-2026-01-22-at-21.12.11.jpeg",
+   "size": 153482,
+   "hash": "c8299a568d16acff5f87a99a1dd50786435967032974b7a56b61a248bb2806e7",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-19-WhatsApp-Image-2026-01-22-at-21.12.11.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-20-WhatsApp-Image-2026-01-22-at-21.12.12-1.jpeg",
+   "size": 125094,
+   "hash": "b235defe10c58f2d1c42c6a144f52f06dd8f571b7cee87f86874db7ba710971f",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-20-WhatsApp-Image-2026-01-22-at-21.12.12-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-21-WhatsApp-Image-2026-01-22-at-21.12.12.jpeg",
+   "size": 122289,
+   "hash": "879a9b48b459af0dfea397288f07909f9e8acb442bf78747c3c51be8abd6befa",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-21-WhatsApp-Image-2026-01-22-at-21.12.12.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-22-WhatsApp-Image-2026-01-22-at-21.12.13-1.jpeg",
+   "size": 110494,
+   "hash": "770cb29fb5c536d08819fe6c54f4238701fadfe6954967f9ee3309572a84c423",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-22-WhatsApp-Image-2026-01-22-at-21.12.13-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-23-WhatsApp-Image-2026-01-22-at-21.12.13.jpeg",
+   "size": 105226,
+   "hash": "84f7c3224e8a22fb43d21cd653590d82c223baa5efe9a49d17febb1cb3e696e5",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-23-WhatsApp-Image-2026-01-22-at-21.12.13.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-24-WhatsApp-Image-2026-01-22-at-21.12.14-1.jpeg",
+   "size": 128551,
+   "hash": "4bcd9108bd261fb2a319db6fabdc0f346bf7861b06e7ad360d628c50c608b822",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-24-WhatsApp-Image-2026-01-22-at-21.12.14-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-25-WhatsApp-Image-2026-01-22-at-21.12.14.jpeg",
+   "size": 131461,
+   "hash": "9b835236f08b29ff7a46299de43fcf529b67a06f9c3dc36af0d59f352a8a7f36",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-25-WhatsApp-Image-2026-01-22-at-21.12.14.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-26-WhatsApp-Image-2026-01-22-at-21.12.15-1.jpeg",
+   "size": 123157,
+   "hash": "ef84ac6fba646293d9279c4e8e6334f409cfaff6c7aadc71aed5dca62f722a96",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-26-WhatsApp-Image-2026-01-22-at-21.12.15-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-27-WhatsApp-Image-2026-01-22-at-21.12.15.jpeg",
+   "size": 117950,
+   "hash": "3a0495702918b2786d5159d442b0678b68123ad7cea1fa6f57363fbbc7bf14ab",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-27-WhatsApp-Image-2026-01-22-at-21.12.15.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-28-WhatsApp-Image-2026-01-22-at-21.12.16.jpeg",
+   "size": 113194,
+   "hash": "43b8e61d9a068eb41d6a76d08a04ed1358701ba108df06d99aebd7e7aa80a4c3",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-28-WhatsApp-Image-2026-01-22-at-21.12.16.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-29-WhatsApp-Image-2026-01-22-at-21.12.17.jpeg",
+   "size": 133592,
+   "hash": "669eb9989d9f91ad21802e100dea41c6a5066034dcf5c2639508e6632ef546fb",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-29-WhatsApp-Image-2026-01-22-at-21.12.17.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-30-WhatsApp-Image-2026-01-22-at-21.12.18-1.jpeg",
+   "size": 123311,
+   "hash": "7d77043588d3fa8f906ead809c6650a318a4bbe8ce3650c1560ddb4540c4b05c",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-30-WhatsApp-Image-2026-01-22-at-21.12.18-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-31-WhatsApp-Image-2026-01-22-at-21.12.18.jpeg",
+   "size": 130777,
+   "hash": "ea00612f63e6a665da9d9cb71743b25b710b732c034ffe529fcea47e628b6609",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-31-WhatsApp-Image-2026-01-22-at-21.12.18.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-32-WhatsApp-Image-2026-01-22-at-21.12.19-1.jpeg",
+   "size": 127690,
+   "hash": "ccb5b78f5ad8ecf9918c3a080efba5a6403a2ed5a425685def0efd61486dd01f",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-32-WhatsApp-Image-2026-01-22-at-21.12.19-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-33-WhatsApp-Image-2026-01-22-at-21.12.19.jpeg",
+   "size": 132976,
+   "hash": "35b349fce0bc29d454d8153755fc16b3a585cc8ebb4545437c20c752ccf0d105",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-33-WhatsApp-Image-2026-01-22-at-21.12.19.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-34-WhatsApp-Image-2026-01-22-at-21.12.20.jpeg",
+   "size": 141066,
+   "hash": "4144f6579ef1c76fb9d4b4a474c1a3c25d3ddc8841fe8061f23c250b6633aa59",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-34-WhatsApp-Image-2026-01-22-at-21.12.20.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-35-WhatsApp-Image-2026-01-22-at-21.12.21-1.jpeg",
+   "size": 131559,
+   "hash": "467d78846c2e54b29f0a6da5a45d2d1124d72e0d4cc0a53861527fd7a9b9c7fa",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-35-WhatsApp-Image-2026-01-22-at-21.12.21-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-36-WhatsApp-Image-2026-01-22-at-21.12.21.jpeg",
+   "size": 135700,
+   "hash": "0780b4fc27d0de1cb5b1ae5ee5c5bd78f07666e790a61769da0feb59e9d1bd00",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-36-WhatsApp-Image-2026-01-22-at-21.12.21.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-37-WhatsApp-Image-2026-01-22-at-21.12.22.jpeg",
+   "size": 136931,
+   "hash": "16005b58b970f1a9c34dad990a5e2e154d87e218d2e95290d404ee5b73da55a5",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-37-WhatsApp-Image-2026-01-22-at-21.12.22.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-38-WhatsApp-Image-2026-01-22-at-21.12.23.jpeg",
+   "size": 139765,
+   "hash": "4d0acff58ae13fe872d1766cdaff302a5bda77b36d3b2ae78e5349ce84c9e5c6",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-38-WhatsApp-Image-2026-01-22-at-21.12.23.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-39-WhatsApp-Image-2026-01-22-at-21.12.24-1.jpeg",
+   "size": 125465,
+   "hash": "1270e8b78c45cccd94013f27d0fbb6c9b91de077925b481de1ca43af46f52e84",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-39-WhatsApp-Image-2026-01-22-at-21.12.24-1.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-40-WhatsApp-Image-2026-01-22-at-21.12.24.jpeg",
+   "size": 142294,
+   "hash": "07eae31c2d6be9f924fa9e09ce9407531ae8228707e81b8e462155334d2c4784",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-40-WhatsApp-Image-2026-01-22-at-21.12.24.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Apuntes manuscritos (fotos)",
+   "nombre": "wuolah-premium-41-WhatsApp-Image-2026-01-22-at-21.12.25.jpeg",
+   "size": 107374,
+   "hash": "bb9b093ff75142e3876ecdb00c2efc4d0af57e2b1ccb2b15a868ca57bfe1b39f",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Apuntes%20manuscritos%20(fotos)/wuolah-premium-41-WhatsApp-Image-2026-01-22-at-21.12.25.jpeg"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Exámenes",
+   "nombre": "wuolah-premium-1-Examen-2021-Quimica-Analitica-I.pdf",
+   "size": 2204843,
+   "hash": "15bcb2e6115b4488dac83a90b7f5f2bd04a56fcd760f4f1f141813c1345ac8b4",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Ex%C3%A1menes/wuolah-premium-1-Examen-2021-Quimica-Analitica-I.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Exámenes",
+   "nombre": "wuolah-premium-2-Examen-20-Quimica-Analitica-Idocx.pdf",
+   "size": 1744930,
+   "hash": "7a863b24dc5ce2ca642c9f6e545fd12f84cc4aa23c05d32d25249111087bc29b",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Ex%C3%A1menes/wuolah-premium-2-Examen-20-Quimica-Analitica-Idocx.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Exámenes",
+   "nombre": "wuolah-premium-3-Examen-2018-extraordinaria-Quimica-Analitica-I.pdf",
+   "size": 2021307,
+   "hash": "0a95b3712a3aee4225b1395267aab58c2ae309033c51caf656b7cdfbb740ec63",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Ex%C3%A1menes/wuolah-premium-3-Examen-2018-extraordinaria-Quimica-Analitica-I.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Exámenes",
+   "nombre": "wuolah-premium-4-Examen-2012-Quimica-Analitica-I.pdf",
+   "size": 1940247,
+   "hash": "f9d3c94e842b6745b83046266c77804aa09052ffe1bb15de11250e6927aa9c56",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Ex%C3%A1menes/wuolah-premium-4-Examen-2012-Quimica-Analitica-I.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Exámenes",
+   "nombre": "wuolah-premium-5-Examen-2013-Quimica-Analitica-I.pdf",
+   "size": 1592788,
+   "hash": "cd7bd594617be4b71459af4fd7106ad131119bb532059ca34b589de1814c52b2",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Ex%C3%A1menes/wuolah-premium-5-Examen-2013-Quimica-Analitica-I.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Exámenes",
+   "nombre": "wuolah-premium-6-Examen-2018-Quimica-Analitica-I.pdf",
+   "size": 2095913,
+   "hash": "3ff55e3bf911a645a0c607eeae16ebe49d00501f32c028a265e822bda46d1391",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Ex%C3%A1menes/wuolah-premium-6-Examen-2018-Quimica-Analitica-I.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Guion y preguntas",
+   "nombre": "wuolah-premium-1-PRACTICAS-QA-I.pdf",
+   "size": 3615313,
+   "hash": "c16f7ee0f1e27cc83b1b238e9b93967c0a853a957f63c454024fc5643fc9230a",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Guion%20y%20preguntas/wuolah-premium-1-PRACTICAS-QA-I.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Hojas de Excel",
+   "nombre": "wuolah-premium-1-Excel-1.pdf",
+   "size": 4670720,
+   "hash": "1ee70a6d9680a0440880e3b7cb1904aae21a5982c3685c934f45e657edd8424b",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Hojas%20de%20Excel/wuolah-premium-1-Excel-1.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Hojas de Excel",
+   "nombre": "wuolah-premium-2-Excel-2.pdf",
+   "size": 6090953,
+   "hash": "234d8953fdc57c1e15e3ae88d6c734fa88e3b04091014f87baf9e5fa386b9f98",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Hojas%20de%20Excel/wuolah-premium-2-Excel-2.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Hojas de Excel",
+   "nombre": "wuolah-premium-3-Excel-3.pdf",
+   "size": 3681615,
+   "hash": "1260debf21ab01b82aabb30e39b1228d6e05cbf9f605bfc18db614bb730d3f74",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Hojas%20de%20Excel/wuolah-premium-3-Excel-3.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Hojas de Excel",
+   "nombre": "wuolah-premium-4-Excel-4.pdf",
+   "size": 10114035,
+   "hash": "4c5a51e2d6ee76e06ec3ea3fa5f7f9138a1f289a877083b41e19cfaa25885431",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Hojas%20de%20Excel/wuolah-premium-4-Excel-4.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Hojas de Excel",
+   "nombre": "wuolah-premium-5-Excel-5.pdf",
+   "size": 8612033,
+   "hash": "69dca72668d8ad6520d18bf36d9dcce3ff4ff11b25f79df37ad603fef63263cd",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Hojas%20de%20Excel/wuolah-premium-5-Excel-5.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Hojas de Excel",
+   "nombre": "wuolah-premium-6-Excel-7.pdf",
+   "size": 6861632,
+   "hash": "e0efc3849a3086b4f314602e2ef13f06472741619958bb9e22f03158e490398b",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Hojas%20de%20Excel/wuolah-premium-6-Excel-7.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Hojas de Excel",
+   "nombre": "wuolah-premium-7-Excel-6.pdf",
+   "size": 11755041,
+   "hash": "be2b7365fcd9c1c14f86724d724382091a1c361198ce187837ca8cd546d1b7b0",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Hojas%20de%20Excel/wuolah-premium-7-Excel-6.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Hojas de Excel",
+   "nombre": "wuolah-premium-8-Excel-8.pdf",
+   "size": 9513697,
+   "hash": "bc6f3c12a0954b7dedb05902c3561691bd7f2bb7ba2462cd6099834b30baf060",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Hojas%20de%20Excel/wuolah-premium-8-Excel-8.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Informes",
+   "nombre": "wuolah-premium-1-informe-determinacion-gravimetrica-de-calcio.pdf",
+   "size": 38692782,
+   "hash": "dcfb015d8baf8e32f876630f9fa7e7047723e5b76123779f7434d4afda66f80f",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Informes/wuolah-premium-1-informe-determinacion-gravimetrica-de-calcio.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Prácticas/Informes",
+   "nombre": "wuolah-premium-2-informe-volumetrias-acido-base.pdf",
+   "size": 48351646,
+   "hash": "06d0025dc46e7c183a8ed4439d6cb14ba860dddb8adc058a169c54925bb3c173",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Pr%C3%A1cticas/Informes/wuolah-premium-2-informe-volumetrias-acido-base.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-1-EJERCICIOS-QA-I-TEMA-7-RESUELTOS.pdf",
+   "size": 1701625,
+   "hash": "0cdbb732f5106e691a07637eaade20b9f73d09dac2b31d81513ddc109ef208ac",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-1-EJERCICIOS-QA-I-TEMA-7-RESUELTOS.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-1-Problemas t.5 hoja 1 - analitica i.pdf",
+   "size": 49826809,
+   "hash": "59185db275a3e87a3219fb6822e1f3fdb27aff6b6ca3e326cdf49dc16a31397e",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-1-Problemas%20t.5%20hoja%201%20-%20analitica%20i.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-1-Quimica-Analitica-I-Ejercicios-tema-6.pdf",
+   "size": 1852862,
+   "hash": "d40677d800b1589783ef28e610bf3bb71be1dc00105de42bc4786044271a86c9",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-1-Quimica-Analitica-I-Ejercicios-tema-6.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-2-EJERCICIOS-QA-I-TEMA-5-RESUELTOS.pdf",
+   "size": 3245110,
+   "hash": "9224970ab089fcb3d46b4d233bb1ec6730fab64af9f8592b2b2897b972765037",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-2-EJERCICIOS-QA-I-TEMA-5-RESUELTOS.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-2-Problemas t.5 hoja 2 - analitica i.pdf",
+   "size": 15982721,
+   "hash": "c48c980c99d3dc53980a4dfcab31ca8be41a488025c42f90c48a356589e764d9",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-2-Problemas%20t.5%20hoja%202%20-%20analitica%20i.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-2-Quimica-Analitica-I-Ejercicios-tema-9.pdf",
+   "size": 3503913,
+   "hash": "3e6603af21171e32493a16d0bb35442d16a044ea0ac638f0916f4bb30faff7ad",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-2-Quimica-Analitica-I-Ejercicios-tema-9.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-3-EJERCICIOS-QA-I-TEMA-6-RESUELTOS.pdf",
+   "size": 2895155,
+   "hash": "eed836a6f3bd3e5f5188ab9bd20ef1ea809af13904c2148df66f39d3acb2e041",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-3-EJERCICIOS-QA-I-TEMA-6-RESUELTOS.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-3-Problemas t.6 - analitica i.pdf",
+   "size": 25785323,
+   "hash": "d4a5a3b6d85b72f3a6515d4ca0eac18b5d64c8499bd889068a0fde5df4ccf71c",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-3-Problemas%20t.6%20-%20analitica%20i.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-3-Quimica-Analitica-I-Ejercicios-tema-5.pdf",
+   "size": 2576080,
+   "hash": "c49124485962875d2fdbdf9a28b60ec0c6a40ade24f6d9a432b28ea8aa5a0a74",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-3-Quimica-Analitica-I-Ejercicios-tema-5.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-4-EJERCICIOS-RESUELTOS-QA-I-TEMA-9.pdf",
+   "size": 2490180,
+   "hash": "c5d33d961013a1cbc480a7c33dbb717ffbee937ea145b4c0f2c45aa49892745e",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-4-EJERCICIOS-RESUELTOS-QA-I-TEMA-9.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-4-Problemas t.7 - analitica i.pdf",
+   "size": 11403380,
+   "hash": "616bc9c2928e0bacb7726d6fb14fd43791f2fd640e33e806a6e9f2f68443de23",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-4-Problemas%20t.7%20-%20analitica%20i.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-4-Quimica-Analitica-I-Ejercicios-tema-7.pdf",
+   "size": 1678162,
+   "hash": "f236a7a94e3ec5aceb72274d98c7cc20def985b694b672da4256dead3cb9a7e5",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-4-Quimica-Analitica-I-Ejercicios-tema-7.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Ejercicios resueltos",
+   "nombre": "wuolah-premium-5-Problemas t.9 - analitica i.pdf",
+   "size": 22032809,
+   "hash": "61b9f7f081b604f6f2ccb6845d75f68bf611e49cdf1ddb92f15bb8c3edcdfa1c",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Ejercicios%20resueltos/wuolah-premium-5-Problemas%20t.9%20-%20analitica%20i.pdf"
+  },
   {
    "curso": 2,
    "plan": "",
@@ -20,6 +730,106 @@
    "size": 1423636,
    "hash": "761dc6e463902d68c61dac55550ee1bbb73a18dfb4ae4ebbd75caa12609935be",
    "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Hojas%20oficiales%202026-27/2026-27_QAI_Hoja1_Problemas%20Tema%203.%20Enunciados.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-1-TEMA-1.-QUIMICA-ANALITICA-Y-EL-PROCESO-ANALITICO.pdf",
+   "size": 922541,
+   "hash": "5420a45ae801a5cb70a3bf4e3ecf2022ce4ca87a70fd23148e97b2125f7bf434",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-1-TEMA-1.-QUIMICA-ANALITICA-Y-EL-PROCESO-ANALITICO.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-2-TEMA-2.-INTRODUCCION-A-LA-PREPARACION-DE-LA-MUESTRA.pdf",
+   "size": 942616,
+   "hash": "4f795c7588946a9498d209e3c9693097ecb530b874f5d82584ebe97c6f4989aa",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-2-TEMA-2.-INTRODUCCION-A-LA-PREPARACION-DE-LA-MUESTRA.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-3-TEMA-3.-TRATAMIENTO-DE-LOS-DATOS-ANALITICOS.pdf",
+   "size": 1269267,
+   "hash": "b3edb41fc9b158a63bee257d213dfa9c1b2c5f2f87258f34c735a561f2e196a8",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-3-TEMA-3.-TRATAMIENTO-DE-LOS-DATOS-ANALITICOS.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-4-TEMA-4.-INTRODUCCION-AL-ANALISIS-VOLUMETRICO.pdf",
+   "size": 1211559,
+   "hash": "637277f250a4b187d9f1574009b7d11c0a22c22567ceeece38871b280c9b590b",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-4-TEMA-4.-INTRODUCCION-AL-ANALISIS-VOLUMETRICO.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-5-TEMA-5.-VOLUMETRIAS-ACIDO-BASE-PARTE-1.pdf",
+   "size": 3335438,
+   "hash": "88c56aaef0da8266ba22295db01181785f2ba3cbb0d4a676cdb65cc14ff91cd3",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-5-TEMA-5.-VOLUMETRIAS-ACIDO-BASE-PARTE-1.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-6-TEMA-5.-VOLUMETRIAS-ACIDO-BASE-PARTE-2.pdf",
+   "size": 1448118,
+   "hash": "9f79c09fda4cd2950ce704a3e91e309610f8e5225a41d8c22679be9c6e71d0f7",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-6-TEMA-5.-VOLUMETRIAS-ACIDO-BASE-PARTE-2.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-7-TEMA-6.-VOLUMETRIAS-DE-FORMACION-DE-COMPLEJOS.pdf",
+   "size": 2091110,
+   "hash": "9b6e2f56e563d0748b15bb0dce035f300f525df0eb3d196fdbe058bf3e61a2de",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-7-TEMA-6.-VOLUMETRIAS-DE-FORMACION-DE-COMPLEJOS.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-8-TEMA-7.-ANALISIS-GRAVIMETRICO.pdf",
+   "size": 1306405,
+   "hash": "44e4b96cc9a5660e119cb3f7598feec1c16a4a3f92d3d01aaac688c2287c1732",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-8-TEMA-7.-ANALISIS-GRAVIMETRICO.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-9-TEMA-8.-VOLUMETRIAS-DE-PRECIPITACION.pdf",
+   "size": 1860744,
+   "hash": "464e691cc422eb7618a8cc3c096a18f4346be9afba172c8a18f728e891aa6e19",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-9-TEMA-8.-VOLUMETRIAS-DE-PRECIPITACION.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Apuntes por temas",
+   "nombre": "wuolah-premium-10-TEMA-9.-VOLUMETRIAS-REDOX.pdf",
+   "size": 1840075,
+   "hash": "811586f8a363df4e01a0d0520eff08bee089115df5c5be74c3a1bf7b5eef5aa2",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Apuntes%20por%20temas/wuolah-premium-10-TEMA-9.-VOLUMETRIAS-REDOX.pdf"
   },
   {
    "curso": 2,
@@ -130,6 +940,46 @@
    "size": 191174,
    "hash": "3b8ff694d2772e890bba8937c20f20a742a3d00f094c7a2f6803ae3e715a0c4d",
    "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Material%20complementario/Construcci%C3%B3n%20de%20un%20diagrama%20logar%C3%ADtmico.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Resúmenes",
+   "nombre": "wuolah-premium-RESUMEN-QUIMICA-ANALITICA-I-TEMAS-1-2-3-y-4 (1).pdf",
+   "size": 689095,
+   "hash": "2af02d6ad51422cca464da126cb8f6279f3197dc58867d8e5754fd91fdaedf7d",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Res%C3%BAmenes/wuolah-premium-RESUMEN-QUIMICA-ANALITICA-I-TEMAS-1-2-3-y-4%20(1).pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Resúmenes",
+   "nombre": "wuolah-premium-TODA-LA-TEORIA-DE-QA-I.pdf",
+   "size": 3729945,
+   "hash": "e21826f41ce49df4e2fe4000344fbb14c07d0e60d14629092e58b9751806733a",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Res%C3%BAmenes/wuolah-premium-TODA-LA-TEORIA-DE-QA-I.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Test y preguntas",
+   "nombre": "wuolah-premium-Preguntas-Practicas-Q.-Analitica-I.pdf",
+   "size": 15012629,
+   "hash": "41b6696522b3e8a2a0f90af0160c90dfb0c97b94e018315bd2c066fafa2e1eda",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Test%20y%20preguntas/wuolah-premium-Preguntas-Practicas-Q.-Analitica-I.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Test y preguntas",
+   "nombre": "wuolah-premium-Preguntas-Tipo-test-Q.-Analitica-I.pdf",
+   "size": 25204830,
+   "hash": "76b71ea6191b0536c1fb65778ef4c9ef3a216a785313bc0e91e18860bb042cfc",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Test%20y%20preguntas/wuolah-premium-Preguntas-Tipo-test-Q.-Analitica-I.pdf"
   }
  ]
 }
