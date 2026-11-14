@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="description" content="Guía de estudio y predicción de exámenes del Grado en Química (USAL)">
 <title>Química USAL</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235B2A86'/%3E%3Cpath d='M26 13h12M28 13v15L17 48a3 3 0 0 0 3 4h24a3 3 0 0 0 3-4L36 28V13' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -382,6 +383,22 @@ details>summary .chip{flex-shrink:0;max-width:none}
 .au-guest{position:relative;background:none;border:0;color:var(--muted);font:600 .92rem var(--body);cursor:pointer;padding:8px}
 .au-guest:hover{color:var(--ink)}
 @media (max-width:420px){#authScreen .au-card{padding:22px 18px 18px}.au-h{font-size:1.35rem}}
+/* Panel de acceso del inicio y biblioteca de documentos */
+.acc{display:grid;gap:12px;border-color:var(--mn);background:linear-gradient(0deg,var(--mn-soft),var(--mn-soft)),var(--paper)}
+.acc h3{margin-bottom:4px}
+.acc p{line-height:1.5}
+.acc ul{margin:8px 0 0;padding-left:1.1rem;line-height:1.55}
+.acc li{margin:2px 0}
+.acc.in{grid-template-columns:1fr auto;align-items:center}
+.lib-subj{display:grid;gap:8px}
+.lib-path{font:600 .74rem/1.3 var(--mono);color:var(--muted);overflow-wrap:anywhere}
+.lib-lock{font-size:.84rem;color:var(--muted)}
+.btn.sm{padding:5px 10px;font-size:.86rem}
+.okfile{color:var(--ok)}
+.nofile{color:var(--amber)}
+@media print{.topbar7,.side,.acc,#themeBtn{display:none!important}}
+@media print{body.print-plan .side,body.print-plan .topbar7,body.print-plan .navrow,body.print-plan .hero,body.print-plan #plan>div:first-child,body.print-plan #planForm,body.print-plan #planTips,body.print-plan [data-planpdf],body.print-plan [data-planprint],body.print-plan #footer,body.print-plan .scrim{display:none!important}body.print-plan .main{margin:0!important}}
+
 
 </style>
 </head>
@@ -406,6 +423,7 @@ details>summary .chip{flex-shrink:0;max-width:none}
   <main class="view" id="vHome"></main>
   <main class="view" id="vPlan" hidden></main>
   <main class="view" id="vCourse" hidden></main>
+  <main class="view" id="vLib" hidden></main>
   <main class="view" id="vReport" hidden>
     <div><h2>Sugerir cambios / Notificar error</h2><p class="lead">¿Un resultado que no cuadra, un dato de la guía que ha cambiado, un enunciado mal copiado? Escríbelo aquí. Cada aviso lo revisa Claude al momento: si la solución está mal, la corrige y la guarda; si das un dato concreto (fecha de examen, profesor), lo actualiza en la app. Todo queda en «Mis avisos» y los cambios de datos se pueden deshacer.</p></div>
     <form class="card" id="repForm">
@@ -541,7 +559,7 @@ details>summary .chip{flex-shrink:0;max-width:none}
 
     <section class="view tab" id="tutor" hidden>
       <div><h2>Tutor IA</h2><p class="lead">Cada respuesta empieza por la <b>estructura</b> del problema, lo resuelve paso a paso con fórmulas bien escritas y termina con problemas análogos y trampas típicas. También corrige fotos de tus problemas resueltos.</p></div>
-      <p id="iaOff" class="callout warn" hidden>Sin conexión con Claude: el tutor responde con el método de la estructura y la teoría del tema guardados en la app. Para respuestas completas, abre esta página dentro de Claude.</p>
+      <p id="iaOff" class="callout warn" hidden>La IA necesita una cuenta: pulsa «Entrar» arriba (es gratis). Mientras tanto, el tutor responde con el método de la estructura y la teoría del tema guardados en la web.</p>
       <div class="chat" id="chat" aria-live="polite"></div>
       <div class="field">
         <label for="ask">Tu pregunta</label>
@@ -1394,6 +1412,84 @@ function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeou
 const fmtDate=(d,o={day:"numeric",month:"short"})=>new Date(d+"T12:00:00").toLocaleDateString("es-ES",o);
 const NF=`<span class="nf">${NOENC}</span>`;
 
+/* ---------- Notación química y científica legible ----------
+   Los enunciados de los PDF llegan como texto plano (H2O, 10-2, mol-1 s-1, BrO3 -).
+   chemFmt() los convierte, ya escapados, a HTML con subíndices, exponentes, cargas y flechas.
+   Es conservador: solo toca fórmulas formadas por símbolos de elementos reales. */
+const ELEMS=new Set("H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr".split(" "));
+const DIATOM=new Set(["H2","O2","N2","F2","Cl2","Br2","I2","O3","S8","P4"]);
+function chemFormula(tok){return tok.replace(/(\d+)/g,"<sub>$1</sub>")}
+function chemValid(tok){
+  const parts=tok.match(/[A-Z][a-z]?|\d+|[()]/g)||[];
+  if(parts.join("")!==tok)return false;
+  let els=0,dig=false;
+  for(const p of parts){
+    if(/^[A-Z]/.test(p)){if(!ELEMS.has(p))return false;els++}
+    else if(/^\d/.test(p)){if(p==="1"||p.startsWith("0"))return false;dig=true}
+  }
+  if(!dig)return false;
+  if(els===1&&!/[()]/.test(tok))return DIATOM.has(tok);
+  return true;
+}
+function chemEl(tok){
+  const p=tok.match(/[A-Z][a-z]?/g)||[];
+  return p.length>0&&p.every(x=>ELEMS.has(x))&&tok.replace(/[A-Z][a-z]?|\d+|[()]/g,"")==="";
+}
+const CH_RE=/(^|[^A-Za-z0-9_>&;])(\d*)((?:[A-Z][a-z]?\d*|\((?:[A-Z][a-z]?\d*)+\)\d*)+)(?:\s(\d?)([+−–-])(?=\s*[+\])→⇌,.;:]|\s*$)|(\d?)([+−–-])(?![A-Za-z0-9])|(?![A-Za-z0-9]))/g;
+/* Reajusta los saltos de línea duros que deja el PDF dentro de una frase.
+   Une una línea con la siguiente solo si es claramente la misma frase; no toca opciones (A., b)), listas,
+   líneas en blanco, encabezados cortos ni filas con columnas alineadas (tablas, ecuaciones centradas). */
+function reflowStmt(t){
+  const L=String(t==null?"":t).replace(/\r/g,"").split("\n"),out=[];
+  const marker=/^(?:[A-Ha-h][.)]\s|\(?[a-h]\)\s|\d+[.)]\s|[-•–*]\s|\(?[ivx]+\)\s|\d+\s*[-–]\s)/;
+  for(const raw of L){
+    const cur=raw.trim();
+    if(!out.length||!cur){out.push(raw);continue}
+    const prev=out[out.length-1],pt=prev.trim();
+    const tabular=/\s{3,}/.test(pt)||/\s{3,}/.test(cur)||/\t/.test(pt+cur);
+    const prevEnds=/[.:?!;]\s*$/.test(pt);
+    const garbled=/[\u{1D400}-\u{1D7FF}̀-ͯ⁄√∑∫]/u.test(pt+cur);
+    const joinable=!garbled&&pt&&!prevEnds&&pt.length>=28&&!marker.test(cur)&&!tabular&&!/^[A-ZÁÉÍÓÚ ]{6,}$/.test(pt);
+    if(joinable)out[out.length-1]=prev.replace(/\s+$/,"")+" "+cur;else out.push(raw);
+  }
+  return out.join("\n");
+}
+
+function chemFmt(src){
+  let s=String(src==null?"":src).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  /* Incremento mal copiado y flechas */
+  s=s.replace(/∆/g,"Δ");
+  s=s.replace(/&lt;[-=]{1,2}&gt;/g,"⇌").replace(/&lt;[-=]{2,}/g,"←").replace(/[-=]{2,}&gt;/g,"→").replace(/(^|[\s\]\)])-&gt;/g,"$1→");
+  /* Notación científica: × 10-2, x 10^-3, · 10 -3, 10^-3 */
+  s=s.replace(/(×|·|\bx\b|\*)\s*10\s*\^?\s*([−–-]?\s?\d+)(?![\d,.]*\d)/g,(m,op,e)=>(op==="*"||op==="x"?"×":op)+" 10<sup>"+e.replace(/\s/g,"").replace(/[-–]/,"−")+"</sup>");
+  s=s.replace(/(^|[^\w.,])10\^\s*\{?([−–-]?\d+)\}?/g,(m,p,e)=>p+"10<sup>"+e.replace(/[-–]/,"−")+"</sup>");
+  /* Unidades con exponente: mol-1 s-1 L-1 M-1 K-1 J-1 g-1 m-3 dm3 cm3 L2 */
+  s=s.replace(/(^|[\s(\[/·.,;])(mol|kmol|mmol|s|min|L|mL|M|K|J|kJ|g|kg|mg|m|dm|cm|mm|nm|atm|Pa|kPa|cal|kcal|Hz)\s?([−–-]\d)(?![\w])/g,(m,p,u,e)=>p+u+"<sup>"+e.replace(/[-–]/,"−")+"</sup>");
+  s=s.replace(/(^|[\s(\[/·.,;])(L|dm|cm|mm|m)([23])(?![\w<])/g,(m,p,u,e)=>p+u+"<sup>"+e+"</sup>");
+  /* Electrón: 2e- → 2e⁻ */
+  s=s.replace(/(^|[^A-Za-z0-9])(\d*)e[-−–](?![A-Za-z0-9])/g,(m,p,n)=>p+n+"e<sup>−</sup>");
+  /* Fórmulas con subíndices y, a continuación, la carga */
+  s=s.replace(CH_RE,(m,pre,coef,tok,chd,chs,chd2,chs2)=>{
+    const valid=chemValid(tok),elOK=chemEl(tok);
+    const sg=x=>x==="+"?"+":"−";
+    if(chs2){ /* carga pegada: Fe3+, NH4+, OH-, Br-, SO42- (= SO4 con carga 2-) */
+      if(!chd2){const mm=tok.match(/^(.*[A-Za-z)])(\d)(\d)$/);
+        if(mm&&!/^[A-Z][a-z]?$/.test(mm[1])&&chemEl(mm[1]+mm[2])){return pre+coef+chemFormula(mm[1]+mm[2])+"<sup>"+mm[3]+sg(chs2)+"</sup>"}}
+      const sm=tok.match(/^([A-Z][a-z]?)(\d)$/);
+      if(sm&&ELEMS.has(sm[1])&&!chd2)return pre+coef+sm[1]+"<sup>"+sm[2]+sg(chs2)+"</sup>";
+      if(elOK)return pre+coef+(valid?chemFormula(tok):tok)+"<sup>"+(chd2||"")+sg(chs2)+"</sup>";
+      return m;
+    }
+    if(chs){ /* carga separada por un espacio: «BrO3 -», «SO4 2-» */
+      if(valid)return pre+coef+chemFormula(tok)+"<sup>"+(chd||"")+sg(chs)+"</sup>";
+      return m;
+    }
+    return valid?pre+coef+chemFormula(tok):m;
+  });
+  return s;
+}
+
+
 /* ---------- MathJax (con renderizador propio de respaldo) ---------- */
 let mjReady=false;
 /* Tipografía matemática perezosa: solo se procesa lo que está cerca de la pantalla */
@@ -1449,7 +1545,7 @@ function texFallback(root){
     h+=esc(v.slice(last));frag.innerHTML=h;n.replaceWith(frag);
   }
 }
-setTimeout(()=>{if(!mjReady){TEXFB=true;if(TXQ.size&&!txT)txT=setTimeout(txFlush,30);document.querySelectorAll('main.view:not([hidden]),#vSubj:not([hidden])>section.tab:not([hidden]),#modal:not([hidden])').forEach(x=>texFallback(x))}},12000);
+setTimeout(()=>{if(!mjReady){TEXFB=true;if(TXQ.size&&!txT)txT=setTimeout(txFlush,30);document.querySelectorAll('main.view:not([hidden]),#vSubj:not([hidden])>section.tab:not([hidden]),#modal:not([hidden])').forEach(x=>texFallback(x))}},7000);
 
 window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]},svg:{fontCache:"global"},startup:{typeset:false,ready(){MathJax.startup.defaultReady();mjReady=true;if(TXQ.size&&!txT)txT=setTimeout(txFlush,30);const v=[...document.querySelectorAll("main.view:not([hidden]),#vSubj:not([hidden])>section.tab:not([hidden]),#modal:not([hidden])")];v.forEach(x=>typeset(x))}}};
 (function(){const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js";sc.async=true;document.head.appendChild(sc)})();
@@ -1502,13 +1598,13 @@ async function go(r,opt={}){
   if(!opt.back&&!same(r,ROUTE)){const prev={...ROUTE,y:window.scrollY};HIST.push(prev);if(HIST.length>60)HIST.shift()}
   ROUTE=r; closeSide(); closeModal();
   if(r.v==="subj"){if(!CUR||CUR.id!==r.id)await openSubject(r.id);showSec(r.sec||"resumen",opt.back?r.y:0)}
-  else{if(CUR&&SCACHE[CUR.id])SCACHE[CUR.id]._prog=PROG;CUR=null;renderNav();({home:renderHome,plan:renderPlanChoice,course:renderCourse,report:renderReport})[r.v]?.(r);showView(r.v);window.scrollTo({top:opt.back?(r.y||0):0})}
+  else{if(CUR&&SCACHE[CUR.id])SCACHE[CUR.id]._prog=PROG;CUR=null;renderNav();({home:renderHome,plan:renderPlanChoice,course:renderCourse,report:renderReport,lib:renderLib})[r.v]?.(r);showView(r.v);window.scrollTo({top:opt.back?(r.y||0):0})}
   renderNav();
 }
 function back(){const r=HIST.pop();if(r)go(r,{back:true});else go(parentOf(ROUTE),{back:true})}
 function parentOf(r){if(r.v==="subj"){const c=CATMAP[r.id];return c?{v:"course",c:c.curso,p:c.plan}:{v:"home"}}if(r.v==="course"&&r.c===1)return{v:"plan"};return{v:"home"}}
 $("#backBtn").onclick=back; $("#brand").onclick=()=>go({v:"home"});
-function showView(v){["home","plan","course","report"].forEach(x=>$("#v"+x[0].toUpperCase()+x.slice(1)).hidden=x!==v);$("#vSubj").hidden=v!=="subj"}
+function showView(v){["home","plan","course","report","lib"].forEach(x=>$("#v"+x[0].toUpperCase()+x.slice(1)).hidden=x!==v);$("#vSubj").hidden=v!=="subj"}
 function crumbsFor(r){
   const c=[["Inicio",{v:"home"}]];
   const cat=r.v==="subj"?CATMAP[r.id]:null; const curso=r.v==="course"?r.c:cat?.curso; const plan=r.v==="course"?r.p:cat?.plan;
@@ -1517,6 +1613,7 @@ function crumbsFor(r){
   if(cat)c.push([`Cuatrimestre ${cat.sem}`,{v:"course",c:cat.curso,p:cat.plan}]);
   if(r.v==="subj"){c.push([CUR?.name||"Asignatura",{v:"subj",id:r.id,sec:"resumen"}]);if(r.sec&&r.sec!=="resumen")c.push([SECTIONS.find(s=>s[0]===r.sec)?.[1]||r.sec,null])}
   if(r.v==="report")c.push(["Sugerir cambios",null]);
+  if(r.v==="lib")c.push(["Biblioteca de documentos",null]);
   return c;
 }
 function renderNav(){
@@ -1527,6 +1624,7 @@ function renderNav(){
   let h=`<button class="hamb x" id="sideX" aria-label="Cerrar menú">✕</button><a href="#" data-route='{"v":"home"}' ${cur(ROUTE.v==="home")}>Inicio</a><h4>Cursos</h4>`;
   h+=[1,2,3,4].map(n=>`<a href="#" data-route='${n===1?'{"v":"plan"}':`{"v":"course","c":${n},"p":"V"}`}' ${cur((ROUTE.v==="course"&&ROUTE.c===n)||(n===1&&ROUTE.v==="plan")||(CUR?.cat?.curso===n))}><span>${n}º curso</span><span class="muted num" style="font-size:.8rem">${courseProg(n,n===1?(LS.get("qplan1","V")):"V")} %</span></a>`).join("");
   if(CUR){const p=CUR._pct??0;h+=`<h4>Asignatura</h4><p class="sname">${esc(CUR.name)}</p><div class="mini" title="Progreso ${p} %"><i style="width:${p}%"></i></div>`+SECTIONS.map(([id,l])=>`<button class="sl" data-sec="${id}" ${cur(curSec===id&&ROUTE.v==="subj")}>${l}</button>`).join("")}
+  h+=`<h4>Documentos</h4><a href="#" data-route='{"v":"lib"}' ${cur(ROUTE.v==="lib")}>Biblioteca de PDF</a>`;
   h+=`<h4>Ayuda</h4><a href="#" data-route='{"v":"report"}' ${cur(ROUTE.v==="report")}>Sugerir cambios / Notificar error</a>`;
   $("#side").innerHTML=h; $("#sideX").onclick=closeSide;
 }
@@ -1694,7 +1792,7 @@ function itemMap(S){const m={};(S.docs||[]).forEach(d=>(d.items||[]).forEach(it=
 function docItem(d,it,S){
   const hand=BUILT[S.id]?.probs?.(d,it)||null;
   const x={id:it.id,n:it.n||"",kind:d.tipo==="examen"?"ex":"hoja",group:d.titulo||d.name,label:`${d.titulo||d.name} · ${it.n?"nº "+it.n:""}`,temaG:it.tema||d.tema||"",
-    s:(d.builtin&&!it.tex)?`<p class="pre">${esc(it.e)}</p>`:stmtOf(it),tex:!!it.tex||!d.builtin,rdoc:it.r||"",fromDoc:true};
+    s:(d.builtin&&!it.tex)?`<p class="pre">${chemFmt(reflowStmt(it.e))}</p>`:stmtOf(it),tex:!!it.tex||!d.builtin,rdoc:it.r||"",fromDoc:true};
   if(hand){x.prob=hand.p;x.dif=hand.dif;x.est=hand.est||"";x._why=hand.why;x._low=hand.low||[]}
   return x;
 }
@@ -1720,10 +1818,10 @@ function docTests(S){
     let c=m.m?"abcdefgh".indexOf(m.m.toLowerCase().replace(/[^a-h]/g,"")[0]||"z"):-1;
     const a=ans[it.id]||S.sols?.["q_"+it.id]; let why=c>=0?"Respuesta marcada en tu documento.":"", steps=null;
     if(a&&a.c!=null){if(c<0)c=+a.c;why=a.why||why;steps=a.steps||null}
-    const e=String(m.e).replace(/\s*\(se repite[^)]*\)/i,"");
+    const cf=d.builtin?chemFmt:(x=>x);const e=cf(d.builtin?reflowStmt(String(m.e).replace(/\s*\(se repite[^)]*\)/i,"")):String(m.e).replace(/\s*\(se repite[^)]*\)/i,""));
     const cur=by.get(key);
     if(cur){cur[7]+=rp;cur.docs.add(d.titulo||d.name);if(cur[4]<0&&c>=0){cur[4]=c;cur[5]=why;cur[6]=steps}}
-    else{const q=[m.tema||d.tema||(d.temas||[])[0]||"General",String(d.titulo||d.name).slice(0,40),e,m.o.map(x=>String(x).replace(/^\s*[A-Ha-h]\s*[.)\-]\s+/,"")),c,why,steps,rp];q.docs=new Set([d.titulo||d.name]);q.id=it.id;by.set(key,q)}
+    else{const q=[m.tema||d.tema||(d.temas||[])[0]||"General",String(d.titulo||d.name).slice(0,40),e,m.o.map(x=>cf(String(x).replace(/^\s*[A-Ha-h]\s*[.)\-]\s+/,""))),c,why,steps,rp];q.docs=new Set([d.titulo||d.name]);q.id=it.id;by.set(key,q)}
   }));
   return [...by.values()].map(q=>{q[7]=Math.max(q[7],q.docs.size);return q}).sort((a,b)=>b[7]-a[7]);
 }
@@ -1767,7 +1865,7 @@ async function loadDb(S){
 }
 const base=()=>`data/users/${uid}`;
 const SCACHE={};
-function loadBDocs(id){if(!BDOCN[id]||BDOCS[id])return Promise.resolve();return new Promise(res=>{const sc=document.createElement("script");sc.src="bdocs/"+id+".js";sc.onload=res;sc.onerror=()=>{toast("No se han podido cargar los documentos incluidos de esta asignatura.");res()};document.head.appendChild(sc)})}
+function loadBDocs(id){if(!BDOCN[id]||BDOCS[id])return Promise.resolve();return new Promise(res=>{const sc=document.createElement("script");sc.src="bdocs/"+id+".js";sc.onload=async()=>{try{await FILES.ready;attachFiles(id)}catch(e){}res()};sc.onerror=()=>{toast("No se han podido cargar los documentos incluidos de esta asignatura.");res()};document.head.appendChild(sc)})}
 async function openSubject(id,force){
   if(CUR&&SCACHE[CUR.id])SCACHE[CUR.id]._prog=PROG;
   const C=SCACHE[id];
@@ -1901,7 +1999,10 @@ const today=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOff
 const progKey=()=>"qprog:"+(CUR?.id||"");
 async function progFetch(id){if(!db||!uid)return null;try{const s=await db.doc(`${base()}/prog_${id}`).get();return s.exists?s.data():null}catch(e){return null}}
 function progApply(remote){PROG={test:[],probs:{},flash:{},man:{},sims:[]};const l=LS.get(progKey(),null);if(l)PROG={...PROG,...l};if(remote&&(remote.at||0)>=(PROG.at||0))PROG={...PROG,...remote}}
-async function progLoad(){const id=CUR.id;const r=await progFetch(id);if(CUR?.id!==id)return;if(r&&(r.at||0)>(PROG.at||0))PROG={...PROG,...r}}
+async function progLoad(){const id=CUR.id;const r=await progFetch(id);if(CUR?.id!==id)return;
+  if(r&&(r.at||0)>(PROG.at||0))PROG={...PROG,...r};
+  /* Si el progreso local (hecho sin cuenta) es más reciente que el de la cuenta, se sube para no perderlo */
+  else if(uid&&db&&(PROG.at||0)>((r&&r.at)||0)){try{await db.doc(`${base()}/prog_${id}`).set(JSON.parse(JSON.stringify(PROG)))}catch(e){}}}
 function progSave(){
   PROG.at=Date.now(); if(PROG.test.length>2000)PROG.test=PROG.test.slice(-2000);
   LS.set(progKey(),PROG); clearTimeout(progT); const id=CUR.id;
@@ -2056,12 +2157,14 @@ function renderHome(){setTimeout(()=>inboxRender(),0);
   const started=myList(); const glob=started.length?Math.round(started.reduce((a,c)=>a+subjPct(c.id),0)/started.length):0;
   const mine=myList(); const up=mine.filter(c=>!subjPassed(c.id)).map(c=>{const d=(c.exam||[]).find(x=>daysTo(x)>=0);return d?{c,d,extra:c.exam[1]===d&&c.exam[0]!==d}:null}).filter(Boolean).sort((a,b)=>a.d.localeCompare(b.d)).slice(0,8);
   $("#vHome").innerHTML=`
+   ${accessCard()}
    ${lc?`<button class="bigcard" data-route='${esc(JSON.stringify({v:"subj",id:lc.id,sec:"resumen"}))}'><span class="eyebrow">Continuar</span><h3>${esc(lc.name)}</h3>${progHTML(subjPct(lc.id))}</button>`:""}
-   <div class="card">${inboxBox()}</div>
-   <div class="card"><div class="phead"><h3>Progreso global</h3><span class="muted" style="font-size:.88rem">media de tus ${started.length} asignaturas</span></div>${progHTML(glob,"Total")}</div>
    <div><h2>Cursos</h2><div class="bigcards">${[1,2,3,4].map(n=>{const L=CATALOG.filter(c=>c.curso===n&&c.plan==="V");return `<button class="bigcard" data-route='${n===1?'{"v":"plan"}':`{"v":"course","c":${n},"p":"V"}`}'><span class="n">${n}º</span><span class="muted">${n===1?"Plan viejo y plan nuevo":`${L.length} asignaturas`}</span>${progHTML(courseProg(n,n===1?LS.get("qplan1","V"):"V"))}</button>`}).join("")}</div></div>
    <div class="card"><div class="phead"><h3>Mis asignaturas</h3><button class="btn ghost" id="pickMine">Elegir</button></div><div class="chips">${mine.map(c=>`<a class="chip ${subjPassed(c.id)?"badge-ok":""}" href="#" data-route='${esc(JSON.stringify({v:"subj",id:c.id,sec:"resumen"}))}'>${esc(c.name)}${c.curso===1?" (1º)":""} · ${subjPct(c.id)} %</a>`).join("")}</div>
     <h4 style="margin-top:10px">Próximos exámenes</h4>${up.length?`<ul class="tight">${up.map(x=>`<li><a href="#" data-route='${esc(JSON.stringify({v:"subj",id:x.c.id,sec:"resumen"}))}'>${esc(x.c.name)}</a>${x.c.curso!==2?` <span class="muted">(${x.c.curso}º)</span>`:""} — ${fmtDate(x.d)}${x.extra?" (extraordinario)":""} · ${daysTo(x.d)===0?"hoy":"faltan "+daysTo(x.d)+" días"}</li>`).join("")}</ul>`:'<p class="muted" style="margin:0">No hay exámenes próximos de tus asignaturas.</p>'}</div>
+   <button class="bigcard" data-route='{"v":"lib"}'><span class="eyebrow">Documentos</span><h3>Biblioteca de PDF y apuntes</h3><span class="muted">Todos los documentos de cada asignatura, con la carpeta de la que salen, para consultarlos y descargarlos.</span></button>
+   <div class="card">${inboxBox()}</div>
+   <div class="card"><div class="phead"><h3>Progreso global</h3><span class="muted" style="font-size:.88rem">media de tus ${started.length} asignaturas</span></div>${progHTML(glob,"Total")}</div>
    <p class="muted" style="font-size:.88rem;margin:0">Fechas de examen: calendarios oficiales 2026‑27 de la Facultad de Ciencias Químicas. Profesorado: guías docentes 2026‑27. Lo que no se ha podido comprobar aparece como «${NOENC}».</p>`;
 }
 function renderPlanChoice(){
@@ -2284,7 +2387,7 @@ document.addEventListener("click",async e=>{
   if(!box.hidden){box.hidden=true;b.textContent="Ver solución";b.setAttribute("aria-expanded","false");return}
   const it=CUR.refs[id]||(SIMS.cur?.items||[]).find(x=>x.id===id);
   if(!box.innerHTML.trim()&&it){
-    if(it.rdoc){CUR.sols[id]={est:"",steps:[`<p class="muted" style="margin:0">Resolución tal como aparece en el documento:</p><p class="pre">${esc(it.rdoc)}</p>`],r:""};box.innerHTML=solHTML(CUR.sols[id],it)+(sample?`<div class="actions"><button class="btn ghost" data-resolve="${esc(id)}">Resolver paso a paso con IA</button></div>`:"")}
+    if(it.rdoc){CUR.sols[id]={est:"",steps:[`<p class="muted" style="margin:0">Resolución tal como aparece en el documento:</p><p class="pre">${chemFmt(it.rdoc)}</p>`],r:""};box.innerHTML=solHTML(CUR.sols[id],it)+(sample?`<div class="actions"><button class="btn ghost" data-resolve="${esc(id)}">Resolver paso a paso con IA</button></div>`:"")}
     else if(!sample){box.innerHTML=offlineSol(it)}
     else{b.disabled=true;b.textContent="Resolviendo…";box.hidden=false;box.innerHTML='<p class="muted">Resolviendo paso a paso. Puede tardar un minuto.</p>';
       try{let last=0;const sol=await solveWithAI(it,({text})=>{const n=Date.now();if(n-last>300){last=n;box.innerHTML=`<p class="muted" style="margin:0">Resolviendo… (se va escribiendo en directo)</p><div class="rich">${md(text.replace(/```json[\s\S]*$/,""))}</div>`}});CUR.sols[id]=sol;$$(`.prob[data-pid="${CSS.escape(id)}"] .sol`).forEach(bx=>bx.innerHTML=solHTML(sol,it));saveSol(id,sol)}
@@ -2549,7 +2652,7 @@ function renderPlanner(){
 function drawPlan(){
   const P=PROG.plan,box=$("#planOut"); if(!P){box.innerHTML="";return}
   const all=P.days.flatMap(d=>d.tasks), dn=all.filter(t=>t.done).length;
-  box.innerHTML=`<div class="card">${progHTML(Math.round(100*dn/Math.max(1,all.length)),`Plan: ${dn} de ${all.length} tareas`)}${P.warn?`<p class="muted" style="margin:6px 0 0;font-size:.9rem">${P.warn}</p>`:""}</div>`+
+  box.innerHTML=`<div class="card">${progHTML(Math.round(100*dn/Math.max(1,all.length)),`Plan: ${dn} de ${all.length} tareas`)}${P.warn?`<p class="muted" style="margin:6px 0 0;font-size:.9rem">${P.warn}</p>`:""}<div class="actions" style="margin-top:10px"><button class="btn" type="button" data-planpdf>Descargar horario en PDF</button><button class="btn ghost" type="button" data-planprint>Imprimir</button><span class="muted" id="planPdfMsg" role="status"></span></div><p class="muted" style="margin:6px 0 0;font-size:.86rem">${WEB.user?"Tu horario queda guardado en tu cuenta.":"Tu horario se guarda en este navegador. <button type=\"button\" class=\"linkbtn\" data-acct=\"up\">Crea una cuenta</button> para que no se pierda nunca y lo tengas en todos tus dispositivos."}</p></div>`+
    P.days.map((d,di)=>{const m=d.tasks.reduce((a,t)=>a+t.min,0);const isT=d.d===today();return `<div class="day" ${isT?'style="border-color:var(--mn)"':""}><h4><span>${isT?"Hoy · ":""}${fmtDate(d.d,{weekday:"long",day:"numeric",month:"short"})}</span><span class="muted num" style="font-weight:400">${Math.floor(m/60)} h ${m%60?String(m%60).padStart(2,"0"):""}</span></h4>${d.tasks.map((t,ti)=>`<div class="task ${t.done?"done":""}"><input type="checkbox" data-task="${di}:${ti}" ${t.done?"checked":""} aria-label="Hecho"><span>${taskLink(t)}</span><span class="muted num" style="font-size:.84rem">${t.min} min</span></div>`).join("")}</div>`}).join("");
   typeset(box);
 }
@@ -2601,7 +2704,7 @@ function renderMaterial(){
   $("#matLead").textContent=S.id==="analitica"?"Esta asignatura está estructurada a partir de 116 PDF y documentos oficiales, ya analizados a mano. Lo que subas aquí se lee con IA y se añade a Ejercicios y Test.":`Esta asignatura está estructurada a partir de ${S.nDocs||D.length} PDF y documentos${(BDOCN[S.id]||0)?" (los que me pasaste en tus carpetas)":""}. Puedes añadir más cuando quieras.`;
   const F=D.filter(d=>(ty==="all"||d.tipo===ty)&&(tm==="all"||(d.tema||"Sin tema")===tm)&&(!q||norm(d.name+" "+(d.titulo||"")+" "+(d.tema||"")+" "+(d.path||"")).includes(q)));
   $("#docCount").textContent=`${D.length+(S.id==="analitica"?116:0)} documentos`;
-  const row=d=>`<div class="doc"><div style="min-width:0"><b>${esc(d.titulo||d.name)}</b><div class="chips" style="margin-top:4px">${d.status==="ok"?`<span class="chip hit">${esc(TIPOS[d.tipo]||d.tipo||"?")}</span>${d.anio?`<span class="chip">${esc(d.anio)}</span>`:""}${(d.items||[]).filter(i=>i.k!=="concepto").length?`<span class="chip">${(d.items||[]).filter(i=>i.k!=="concepto").length} ejercicios</span>`:""}${d.tema?`<span class="chip">${esc((l=>l.length>44?l.slice(0,42)+"…":l)(temaLabel(d.tema)))}</span>`:""}`:d.status==="error"?`<span class="chip ko">Error al leer</span>`:`<span class="chip">${esc(d.status||"")}</span>`}${d.pages?`<span class="chip">${d.pages} pág.</span>`:""}${d.builtin?'<span class="chip ok">incluido</span>':""}${d.community?'<span class="chip hit">comunidad</span>':""}${d.byName?`<span class="chip" style="display:inline-flex;align-items:center;gap:4px">${avatarSVG(d.byAv,16)}${esc(d.byName)}</span>`:""}</div>${d.path?`<small class="muted">${esc(d.path)}</small>`:""}${d.status==="error"&&d.titulo?`<small class="muted">${esc(d.titulo)}</small>`:""}</div><span class="actions">${d.file_url?`<a class="btn ghost" href="${esc(d.file_url)}" target="_blank" rel="noopener">Original</a>`:""}${d.informe?`<button class="btn ghost" data-docinfo="${esc(d.id)}">Análisis</button>`:""}${d.builtin?(d.x?`<button class="btn ghost" data-docview="${esc(d.id)}">Ver texto</button>`:""):(!d.community||ISOWNER||(uid&&d.by===uid))?`<button class="btn ghost" data-deldoc="${esc(d.id)}">Quitar</button>`:""}</span></div>`;
+  const row=d=>`<div class="doc"><div style="min-width:0"><b>${esc(d.titulo||d.name)}</b><div class="chips" style="margin-top:4px">${d.status==="ok"?`<span class="chip hit">${esc(TIPOS[d.tipo]||d.tipo||"?")}</span>${d.anio?`<span class="chip">${esc(d.anio)}</span>`:""}${(d.items||[]).filter(i=>i.k!=="concepto").length?`<span class="chip">${(d.items||[]).filter(i=>i.k!=="concepto").length} ejercicios</span>`:""}${d.tema?`<span class="chip">${esc((l=>l.length>44?l.slice(0,42)+"…":l)(temaLabel(d.tema)))}</span>`:""}`:d.status==="error"?`<span class="chip ko">Error al leer</span>`:`<span class="chip">${esc(d.status||"")}</span>`}${d.pages?`<span class="chip">${d.pages} pág.</span>`:""}${d.builtin?'<span class="chip ok">incluido</span>':""}${d.community?'<span class="chip hit">comunidad</span>':""}${d.byName?`<span class="chip" style="display:inline-flex;align-items:center;gap:4px">${avatarSVG(d.byAv,16)}${esc(d.byName)}</span>`:""}</div>${d.path?`<small class="muted">${esc(d.path)}</small>`:""}${d.status==="error"&&d.titulo?`<small class="muted">${esc(d.titulo)}</small>`:""}</div><span class="actions">${fileBtns(d)}${d.informe?`<button class="btn ghost" data-docinfo="${esc(d.id)}">Análisis</button>`:""}${d.builtin?(d.x?`<button class="btn ghost" data-docview="${esc(d.id)}">Ver texto</button>`:""):(!d.community||ISOWNER||(uid&&d.by===uid))?`<button class="btn ghost" data-deldoc="${esc(d.id)}">Quitar</button>`:""}</span></div>`;
   const lib=S.id==="analitica"?ADOCS.map(([g,L])=>`<details><summary><b>${g}</b><span class="chip">${L.length}</span></summary><div class="inner"><ul class="tight">${L.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></details>`).join(""):"";
   const byT={};F.forEach(d=>(byT[d.tipo||"otro"]=byT[d.tipo||"otro"]||[]).push(d));
   $("#docList").innerHTML=lib+(F.length?Object.keys(byT).sort((a,b)=>Object.keys(TIPOS).indexOf(a)-Object.keys(TIPOS).indexOf(b)).map(t=>`<details ${Object.keys(byT).length<3||q?"open":""}><summary><b>${esc(TIPOS[t]||t)}</b><span class="chip">${byT[t].length}</span></summary><div class="inner">${byT[t].map(row).join("")}</div></details>`).join(""):(S.id==="analitica"?"":`<p class="muted">${D.length?"Ningún documento coincide.":"Todavía no hay documentos. Empieza por los exámenes y las hojas de problemas."}</p>`));
@@ -2612,7 +2715,7 @@ function renderMaterial(){
   if(!RUNNING)$("#anSteps").innerHTML=STEPS.map(s=>`<li class="${S.an?.[s.id]?"done":""}"><span class="dot"></span><span>${s.label}</span></li>`).join("");
 }
 $("#libQ").addEventListener("input",()=>renderMaterial());$("#libT").addEventListener("change",()=>renderMaterial());$("#libTema").addEventListener("change",()=>renderMaterial());
-document.addEventListener("click",e=>{const b=e.target.closest("[data-docview]");if(!b)return;const d=CUR.docs.find(x=>x.id===b.dataset.docview);if(d)openModal(esc(d.titulo||d.name),`<p class="muted">Texto extraído del PDF (primeras páginas). Algunos símbolos pueden salir mal copiados.</p><p class="pre">${esc(d.x||d.resumen||"")}</p>`)});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-docview]");if(!b)return;const d=CUR.docs.find(x=>x.id===b.dataset.docview);if(d)openModal(esc(d.titulo||d.name),`<p class="muted">Texto extraído del PDF (primeras páginas). Algunos símbolos pueden salir mal copiados.</p><p class="pre">${chemFmt(d.x||d.resumen||"")}</p>`)});
 document.addEventListener("click",async e=>{const b=e.target.closest("[data-deldoc]");if(!b||!db)return;const id=b.dataset.deldoc;const d=CUR.docs.find(x=>x.id===id);b.disabled=true;try{if(d?.community){await db.doc(`comunidad/${id}`).delete();bumpComm(CUR.id,-1)}else{await db.doc(`${base()}/${CUR.id}`).collection("docs").doc(id).delete();DOCN[CUR.id]=Math.max(0,(DOCN[CUR.id]||1)-1);await db.doc(`${base()}/${CUR.id}`).update({docCount:DOCN[CUR.id]})}CUR.docs=CUR.docs.filter(x=>x.id!==id);CUR.nDocs=Math.max(0,(CUR.nDocs||1)-1);renderMaterial()}catch(err){b.disabled=false;toast("No se ha podido quitar: "+errMsg(err))}});
 document.addEventListener("click",e=>{const b=e.target.closest("[data-docinfo]");if(!b)return;const d=CUR.docs.find(x=>x.id===b.dataset.docinfo);if(d)openModal(esc(d.titulo||d.name),apuntesHTML(d.titulo||d.name,md(d.informe||"")+`<p class="muted">${(d.items||[]).filter(i=>i.k!=="concepto").length} ejercicios o preguntas · ${(d.items||[]).filter(i=>i.k==="concepto").length} conceptos · tema: ${esc(temaLabel(d.tema||"—"))}</p>`,d.community?"Documento compartido por la comunidad y analizado con IA.":"Documento analizado con IA."))});
 const drop=$("#drop");
@@ -2706,7 +2809,7 @@ async function handleFiles(files,hint){
   hint=hint===undefined?(CUR?.id||null):hint;
   if(!WEB.user){webLogin("Para subir documentos, entra o crea una cuenta (con cualquier correo).");return}
   if(!db){toast("Para guardar documentos inicia sesión con tu cuenta.");return}
-  if(CANW===false&&!uid){toast("Tu acceso a esta página es de solo lectura.");return}
+  if(CANW===false&&!uid){toast("Para subir documentos inicia sesión (botón «Entrar», arriba).");return}
   if(!sample){toast("Para leer los documentos hace falta entrar con tu cuenta.");return}
   const ok=files.filter(f=>f.type==="application/pdf"||f.type.startsWith("image/"));
   if(ok.length<files.length)toast("Solo se pueden subir PDF o imágenes.");
@@ -2739,7 +2842,7 @@ async function saveDocTo(target,r,x){
   let shared=false;
   if(SHARE&&CANW!==false){try{await db.doc(`comunidad/${id}`).set({...body,subj:target,by:uid||"",at:Date.now()});shared=true;WEB_UP(x.file,id);body.community=true;body.subj=target;body.by=uid;bumpComm(target,1)}catch(e){CANW=false}}
   if(!shared){
-    if(!uid)throw{message:"Tu acceso es de solo lectura: no se pueden guardar documentos."};
+    if(!uid)throw{message:"Para subir documentos inicia sesión (botón «Entrar», arriba): sin cuenta la web es solo de consulta y estudio."};
     await ensureSubjectDoc(target);
     await db.doc(`${base()}/${target}`).collection("docs").doc(id).set(body);
     DOCN[target]=(DOCN[target]||0)+1;
@@ -2963,7 +3066,7 @@ async function initUser(){try{UNS=await window.claude?.use?.("user");if(UNS){ISO
   if(db)try{const s=await db.doc("analisis/_counts").get();if(s.exists)Object.assign(CDOCN,s.data().map||{})}catch(e){}
   if(ROUTE.v==="home")renderHome();else if(ROUTE.v==="course")renderCourse(ROUTE)}
 async function bumpComm(id,d){CDOCN[id]=Math.max(0,(CDOCN[id]||0)+d);try{const ref=db.doc("analisis/_counts");const s=await ref.get();if(s.exists)await ref.update({map:{[id]:CDOCN[id]}});else await ref.set({map:{[id]:CDOCN[id]}})}catch(e){}}
-function shareCtl(){if(CANW===false)return `<p class="muted" style="margin:0;font-size:.88rem">Ahora mismo estás en modo <b>solo lectura</b>: puedes usar todo lo que ha compartido la comunidad, pero no subir documentos. Para subir documentos, <a href="#" onclick="webLogin();return false">entra o crea una cuenta</a>.</p>`;
+function shareCtl(){if(CANW===false)return `<p class="muted" style="margin:0;font-size:.88rem">Sin cuenta puedes usar todo el material incluido y estudiar con normalidad, pero no subir documentos. Para subir documentos, <a href="#" onclick="webLogin();return false">entra o crea una cuenta</a>.</p>`;
   return `<label class="tog" style="justify-self:center"><input type="checkbox" class="shareTog" ${SHARE?"checked":""}> Compartir con todos (nutre la IA para todos los que usan la web)</label><p class="muted" style="margin:0;font-size:.82rem">Sube solo material que puedas compartir (apuntes propios, exámenes y hojas de la asignatura). La IA quita nombres de estudiantes; aun así, revisa que no haya datos personales.</p>`}
 document.addEventListener("change",e=>{if(e.target.classList?.contains("shareTog")){SHARE=e.target.checked;LS.set("qshare",SHARE);$$(".shareTog").forEach(x=>x.checked=SHARE)}});
 
@@ -3209,7 +3312,7 @@ const EYE='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="c
 function authCard(mode,msg){const up=mode==="up";
   return `<div class="au-logo"><i></i><b>Química USAL</b></div>
   <h1 class="au-h">${up?"Crea tu cuenta":"Inicia sesión"}</h1>
-  <p class="au-sub">${msg?esc(msg):up?"Guarda tu progreso, sube apuntes y usa la IA para estudiar. Es gratis.":"Bienvenido de nuevo. Entra para seguir donde lo dejaste."}</p>
+  <p class="au-sub">${msg?esc(msg):up?"Guarda tu progreso y tus horarios de estudio para siempre, accede a los PDF originales y usa la IA. Es gratis.":"Bienvenido de nuevo. Entra para seguir donde lo dejaste."}</p>
   <button type="button" class="au-google" data-au="google" hidden>${GLOGO}<span>Continuar con Google</span></button>
   <div class="au-or" hidden><span>o con tu correo</span></div>
   <form class="au-form" data-mode="${up?"up":"in"}" novalidate>
@@ -3233,9 +3336,11 @@ function wireAuth(root,mode,msg){
 }
 function authScreen(mode="up",msg){
   let o=$("#authScreen");if(!o){o=document.createElement("div");o.id="authScreen";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","Crear cuenta o iniciar sesión");document.body.appendChild(o)}
-  o.innerHTML=`<div class="au-bg" aria-hidden="true"></div><div class="au-card"></div><button type="button" class="au-guest">Continuar sin cuenta →</button>`;
+  o.innerHTML=`<div class="au-bg" aria-hidden="true"></div><div class="au-card"></div><button type="button" class="au-guest">Seguir sin cuenta →</button>`;
   wireAuth(o.querySelector(".au-card"),mode,msg);document.body.style.overflow="hidden";
-  o.querySelector(".au-guest").onclick=()=>{try{sessionStorage.setItem("qguest","1")}catch(e){}o.remove();document.body.style.overflow=""};
+  const closeAuth=()=>{o.remove();document.body.style.overflow="";document.removeEventListener("keydown",escAuth)};
+  const escAuth=e=>{if(e.key==="Escape")closeAuth()};document.addEventListener("keydown",escAuth);
+  o.querySelector(".au-guest").onclick=closeAuth;
   setTimeout(()=>o.querySelector(".au-i")?.focus(),50);
 }
 function webLogin(msg,mode){
@@ -3245,12 +3350,126 @@ function webLogin(msg,mode){
 }
 document.addEventListener("click",e=>{if(e.target.closest("#acctBtn"))webLogin()});
 WEB.ready.then(async()=>{await loadProfile();acctBtn();
-  let guest=false;try{guest=sessionStorage.getItem("qguest")==="1"}catch(e){}
-  if(!WEB.user&&!WEB.back&&!guest)authScreen("up");
+  /* Sin pantalla obligatoria: se puede entrar y usar todo sin cuenta. El inicio explica las ventajas de crearla. */
+  if(ROUTE.v==="home")renderHome();
   if(WEB.back==="recovery"){webLogin("",'recovery');return}
   if(WEB.backErr)toast("El enlace no es válido o ha caducado: "+WEB.backErr);
   if(WEB.user&&!WEB.profile)setTimeout(()=>profileForm(true),700);
   else if(WEB.back==="signup"&&WEB.user)toast("Correo confirmado: ya has entrado.")});
+
+/* ================= ACCESO, BIBLIOTECA DE PDF Y DESCARGAS ================= */
+/* Los PDF originales se publican desde la carpeta «Contenido-QuimicaUSAL» del escritorio (ver su LEEME).
+   El script sincronizar.mjs copia los PDF a /docs y genera docs/manifest.json, que es lo que lee la web. */
+const PDF_REQUIERE_CUENTA=true; /* pon false si quieres que los PDF se abran también sin iniciar sesión */
+const FILES={map:{},list:[],ready:null};
+FILES.ready=fetch("docs/manifest.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(j=>{if(!j)return;FILES.list=j.archivos||[];FILES.list.forEach(f=>{FILES.map[f.nombre]=f;if(f.hash)FILES.map["#"+f.hash]=f})}).catch(()=>{});
+/* Un PDF original se asocia a su documento por el contenido (hash) o, si no, por el nombre del archivo */
+function attachFiles(id){(window.BDOCS?.[id]||[]).forEach(d=>{const f=FILES.map["#"+d.hash]||FILES.map[d.name];if(f){d.file_url=f.url;d.file_local=true;f._used=true}})}
+
+/* Panel del inicio: qué se puede hacer sin cuenta y qué aporta tenerla */
+function accessCard(){
+  if(WEB.user){const p=WEB.profile||{};const nom=p.alias||(WEB.user.email||"").replace(/@.*/,"");
+    return `<section class="card acc in" aria-label="Tu cuenta"><div><h3 style="margin:0">Hola, ${esc(nom)}</h3><p class="muted" style="margin:2px 0 0">Tu progreso, tus horarios de estudio y tus asignaturas se guardan en tu cuenta y los ves desde cualquier dispositivo. Tienes acceso a los PDF originales.</p></div><button class="btn ghost" data-acct="profile">Mi perfil</button></section>`}
+  return `<section class="card acc" aria-labelledby="accT"><div><h3 id="accT">Estudia ya, sin registrarte. Con cuenta, además…</h3>
+    <p class="muted" style="margin:0">Ejercicios, test, simulacros, fichas y planificador funcionan sin cuenta; lo que hagas se guarda solo en este navegador.</p>
+    <ul class="tight"><li><b>Ves tu progreso</b> en cada asignatura y no se pierde al cambiar de dispositivo.</li><li><b>Tus horarios de estudio</b> calculados se quedan siempre guardados en la web.</li><li><b>Accedes a los PDF reales</b> de la biblioteca para contrastar la información.</li><li>Usas el <b>tutor con IA</b> y subes tus propios apuntes.</li></ul></div>
+    <div class="actions"><button class="btn" data-acct="up">Crear cuenta gratis</button><button class="btn ghost" data-acct="in">Iniciar sesión</button></div></section>`}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-acct]");if(!b)return;e.preventDefault();
+  if(WEB.user){profileForm(false);return}
+  authScreen(b.dataset.acct==="in"?"in":"up")});
+
+/* Botones de un documento: ver / descargar el PDF original o aviso de que aún no está */
+function fileBtns(d){
+  if(!d.file_url)return d.builtin?`<span class="lib-lock nofile" title="El PDF original aún no está en la carpeta de contenido">PDF original: pendiente</span>`:"";
+  if(PDF_REQUIERE_CUENTA&&!WEB.user)return `<button class="btn ghost sm" data-acct="in" title="Inicia sesión para abrir el PDF original">🔒 Ver PDF original</button>`;
+  return `<a class="btn ghost sm" href="${esc(d.file_url)}" target="_blank" rel="noopener">Ver PDF</a><a class="btn ghost sm" href="${esc(d.file_url)}" download>Descargar</a>`}
+
+/* ---------- Biblioteca de documentos ---------- */
+let LIBQ="",LIBONLY=false;
+const sortEs=(a,b)=>String(a).localeCompare(String(b),"es",{numeric:true,sensitivity:"base"});
+function docText(d){return d.x||d.resumen||(d.items||[]).map(it=>it.e+(it.r?"\n\n"+it.r:"")).join("\n\n———\n\n")||""}
+async function renderLib(){
+  $("#title").textContent="Biblioteca de documentos";
+  $("#subtitle").textContent="Todos los PDF y apuntes con los que está hecha la web, por curso y asignatura y con la carpeta de la que salen.";
+  const V=$("#vLib");V.innerHTML='<p class="muted">Cargando biblioteca…</p>';
+  await FILES.ready;await Promise.all(Object.keys(BDOCN).map(loadBDocs));
+  const nFiles=FILES.list.length;
+  V.innerHTML=`<div class="card"><p style="margin:0">${PDF_REQUIERE_CUENTA&&!WEB.user?`Para abrir y descargar los <b>PDF originales</b> necesitas <a href="#" data-acct="in">iniciar sesión</a> (es gratis). Sin cuenta puedes consultar la lista y el texto extraído de cada documento.`:`Pulsa «Ver PDF» para abrir el documento original y contrastar lo que dice la web.`}</p>
+    <p class="muted" style="margin:6px 0 0;font-size:.9rem">${nFiles?`${nFiles} PDF originales disponibles.`:`Los PDF originales todavía no están publicados: mientras tanto puedes ver el texto extraído de cada documento y la carpeta de la que sale.`}</p></div>
+   <div class="card"><div class="frow"><input type="search" id="lbQ" placeholder="Buscar por nombre, tema o carpeta…" aria-label="Buscar documento" style="flex:1 1 240px;min-width:0;font:inherit;padding:8px 11px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink)" value="${esc(LIBQ)}"><label class="tog"><input type="checkbox" id="lbOnly" ${LIBONLY?"checked":""}> Solo con PDF disponible</label></div><p class="score" id="lbStat" style="margin:6px 0 0"></p></div>
+   <div id="lbList" class="stack"></div>`;
+  $("#lbQ").oninput=e=>{LIBQ=e.target.value;drawLib()};$("#lbOnly").onchange=e=>{LIBONLY=e.target.checked;drawLib()};
+  drawLib();
+}
+function drawLib(){
+  const q=norm(LIBQ).split(/\s+/).filter(Boolean),box=$("#lbList");if(!box)return;
+  const subjIds=Object.keys(BDOCN).filter(id=>(window.BDOCS?.[id]||[]).length).sort((a,b)=>(CATMAP[a]?.curso||9)-(CATMAP[b]?.curso||9)||sortEs(CATMAP[a]?.name,CATMAP[b]?.name));
+  const matched=new Set();let total=0,shown=0,withFile=0;
+  const rowOf=(d,sid)=>`<div class="doc"><div style="min-width:0"><b>${esc(d.titulo||d.name)}</b><div class="chips" style="margin-top:4px"><span class="chip hit">${esc(TIPOS[d.tipo]||d.tipo||"Documento")}</span>${d.anio?`<span class="chip">${esc(d.anio)}</span>`:""}${(d.items||[]).filter(i=>i.k!=="concepto").length?`<span class="chip">${(d.items||[]).filter(i=>i.k!=="concepto").length} ejercicios</span>`:""}${d.pages?`<span class="chip">${d.pages} pág.</span>`:""}</div><div class="lib-path">📁 ${esc(d.path||"")} / ${esc(d.name)}</div></div><span class="actions">${fileBtns(d)}${docText(d)?`<button class="btn ghost sm" data-libtext="${esc(sid)}|${esc(d.id)}">Ver texto</button>`:""}</span></div>`;
+  let html="";
+  for(const sid of subjIds){
+    const c=CATMAP[sid]||{name:sid,curso:1,plan:"V"};const all=BDOCS[sid];total+=all.length;
+    const D=all.filter(d=>{const f=!!d.file_url;if(f)withFile++;if(f)matched.add(d.name);if(LIBONLY&&!f)return false;return !q.length||q.every(w=>norm(d.name+" "+(d.titulo||"")+" "+(d.tema||"")+" "+(d.path||"")+" "+c.name).includes(w))});
+    if(!D.length)continue;shown+=D.length;
+    const byF={};D.forEach(d=>{const k=(d.path||"").split("/").slice(1).join(" › ")||"Documentos";(byF[k]=byF[k]||[]).push(d)});
+    html+=`<details class="card" style="padding:0" ${q.length||LIBONLY?"open":""}><summary><h3>${c.curso}º · ${esc(c.name)}${c.plan==="V"&&c.curso===1?' <span class="muted" style="font-weight:400">(plan viejo)</span>':""}</h3><span class="chip">${D.length}</span></summary><div class="inner lib-subj">${Object.keys(byF).sort(sortEs).map(k=>`<div><h4 style="margin:.4rem 0">${esc(k)}</h4><div class="doclib">${byF[k].sort((a,b)=>sortEs(a.name,b.name)).map(d=>rowOf(d,sid)).join("")}</div></div>`).join("")}</div></details>`}
+  /* Química Analítica I: documentos oficiales ya procesados a mano (la lista, sin archivos) */
+  if(!LIBONLY){const L=ADOCS.map(([g,l])=>[g,l.filter(x=>!q.length||q.every(w=>norm(x+" "+g+" Química Analítica I").includes(w)))]).filter(([,l])=>l.length);
+    if(L.length){const n=L.reduce((a,[,l])=>a+l.length,0);total+=116;shown+=n;html+=`<details class="card" style="padding:0" ${q.length?"open":""}><summary><h3>2º · Química Analítica I</h3><span class="chip">${n}</span></summary><div class="inner">${L.map(([g,l])=>`<h4 style="margin:.4rem 0">${esc(g)}</h4><ul class="tight">${l.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`).join("")}<p class="muted" style="font-size:.88rem">Esta asignatura se estructuró a partir de 116 PDF y documentos oficiales (esta lista es un resumen).</p></div></details>`}}
+  /* Carpetas que has añadido tú en el escritorio y que no son documentos incluidos */
+  const ex=FILES.list.filter(f=>!f._used).filter(f=>!q.length||q.every(w=>norm(f.nombre+" "+f.asignatura+" "+f.ruta).includes(w)));
+  if(ex.length){shown+=ex.length;const byS={};ex.forEach(f=>{const k=`${f.curso||"?"}º · ${f.asignatura||"Sin asignatura"}`;(byS[k]=byS[k]||[]).push(f)});
+    html+=`<h2 style="margin-top:6px">Añadidos desde tu carpeta de contenido</h2>`+Object.keys(byS).sort(sortEs).map(k=>`<details class="card" style="padding:0" open><summary><h3>${esc(k)}</h3><span class="chip">${byS[k].length}</span></summary><div class="inner"><div class="doclib">${byS[k].sort((a,b)=>sortEs(a.ruta+a.nombre,b.ruta+b.nombre)).map(f=>`<div class="doc"><div style="min-width:0"><b>${esc(f.nombre.replace(/\.[^.]+$/,""))}</b><div class="lib-path">📁 ${esc(f.ruta?f.ruta+" / ":"")}${esc(f.nombre)}</div></div><span class="actions">${fileBtns({file_url:f.url,builtin:true})}</span></div>`).join("")}</div></div></details>`).join("")}
+  $("#lbStat").textContent=`${shown} documentos mostrados · ${withFile+ex.length} con PDF original disponible`;
+  box.innerHTML=html||'<p class="muted">Ningún documento coincide con la búsqueda.</p>';
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-libtext]");if(!b)return;
+  const [sid,id]=b.dataset.libtext.split("|");const d=(window.BDOCS?.[sid]||[]).find(x=>x.id===id);if(!d)return;
+  openModal(esc(d.titulo||d.name),`<p class="muted">Texto extraído del PDF (${esc(d.path||"")} / ${esc(d.name)}). Las fórmulas pueden haber perdido el formato original: para verlas bien, abre el PDF.</p><p class="pre">${chemFmt(docText(d))}</p>`)});
+
+/* ---------- Horario de estudio en PDF ---------- */
+const JSPDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";let jspdfP=null;
+const loadJsPdf=()=>window.jspdf?Promise.resolve():(jspdfP=jspdfP||loadScript(JSPDF).catch(e=>{jspdfP=null;throw new Error("No se ha podido cargar el generador de PDF (¿sin conexión?). Prueba con «Imprimir» y elige «Guardar como PDF».")}));
+function pdfTxt(s){return plain(String(s||"")).replace(/[₀-₉]/g,c=>String(c.charCodeAt(0)-0x2080)).replace(/[‑−]/g,"-").replace(/→/g,"->").replace(/≥/g,">=").replace(/≤/g,"<=").replace(/≈/g,"~").replace(/[^ -ÿ–—‘’“”•…€]/g,"").replace(/\s+/g," ").trim()}
+async function planPdf(){
+  const P=PROG.plan;if(!P||!CUR)return;const msg=$("#planPdfMsg");if(msg)msg.textContent="Preparando el PDF…";
+  try{
+    await loadJsPdf();const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:"mm",format:"a4"});
+    const W=210,M=16,R=W-M;let y=M;const purple=[91,42,134],ink=[26,29,36],grey=[94,101,115];
+    const put=(txt,o={})=>{const size=o.size||10,x=o.x??M;doc.setFont("helvetica",o.bold?"bold":"normal");doc.setFontSize(size);doc.setTextColor(...(o.color||ink));
+      for(const l of doc.splitTextToSize(pdfTxt(txt),(o.w??R-x))){if(y>284){doc.addPage();y=M}doc.text(l,x,y);y+=size*0.42+1.5}y+=o.gap||0};
+    const all=P.days.flatMap(d=>d.tasks),done=all.filter(t=>t.done).length,mins=all.reduce((a,t)=>a+t.min,0);
+    const cfg=P.cfg||{},DN=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
+    doc.setFillColor(...purple);doc.rect(0,0,W,9,"F");
+    y=22;put("Horario de estudio",{size:20,bold:true,color:purple});
+    put(CUR.name,{size:14,bold:true,gap:1});
+    put(`Del ${fmtDate(cfg.start||P.days[0].d,{day:"numeric",month:"long",year:"numeric"})} al examen del ${cfg.end?fmtDate(cfg.end,{day:"numeric",month:"long",year:"numeric"}):"-"}  ·  ${cfg.hours||"?"} h al día  ·  ${(cfg.days||[]).map(i=>DN[i]).join(", ")}`,{size:10,color:grey});
+    put(`${all.length} tareas  ·  ${Math.floor(mins/60)} h ${mins%60} min de estudio  ·  hechas: ${done} de ${all.length}`,{size:10,color:grey,gap:2});
+    if(P.warn)put(P.warn,{size:9.5,color:[138,90,0],gap:2});
+    const KIND={teo:"Teoría",prob:"Problema",test:"Test",sim:"Simulacro",rev:"Repaso",flash:"Fichas"};
+    P.days.forEach(d=>{
+      const m=d.tasks.reduce((a,t)=>a+t.min,0);if(y>262){doc.addPage();y=M}
+      y+=2;doc.setDrawColor(...purple);doc.setLineWidth(0.4);doc.line(M,y,R,y);y+=5;
+      const yh=y;put(fmtDate(d.d,{weekday:"long",day:"numeric",month:"long"}).replace(/^./,c=>c.toUpperCase()),{size:11.5,bold:true,color:purple,w:R-M-30});
+      doc.setFont("helvetica","normal");doc.setFontSize(10);doc.setTextColor(...grey);doc.text(`${Math.floor(m/60)} h ${m%60?String(m%60).padStart(2,"0")+" min":""}`.trim(),R,yh,{align:"right"});
+      d.tasks.forEach(t=>{
+        const r=t.kind==="prob"?CUR.refs?.[t.ref]:null;const body=r?r.label+(r.prob!=null?` (${r.prob} %)`:""):t.t,kd=KIND[t.kind]||"";const label=kd&&!pdfTxt(body).toLowerCase().startsWith(kd.toLowerCase())?`${kd}: ${body}`:body;
+        if(y>282){doc.addPage();y=M}
+        doc.setDrawColor(...grey);doc.setLineWidth(0.3);doc.rect(M+1,y-3.3,3.6,3.6);
+        if(t.done){doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...purple);doc.text("x",M+2.1,y-0.3)}
+        const y0=y;put(label,{size:10,x:M+8,w:R-M-8-22});
+        doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(...grey);doc.text(`${t.min} min`,R,y0,{align:"right"});
+      });
+    });
+    const N=doc.getNumberOfPages();
+    for(let i=1;i<=N;i++){doc.setPage(i);doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...grey);doc.text(`Química USAL · generado el ${new Date().toLocaleDateString("es-ES")}`,M,291);doc.text(`${i} / ${N}`,R,291,{align:"right"})}
+    const slug=pdfTxt(CUR.name).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    doc.save(`horario-estudio-${slug||"asignatura"}.pdf`);
+    if(msg)msg.textContent="PDF descargado.";
+  }catch(err){if(msg)msg.textContent=err.message||"No se ha podido crear el PDF."}
+}
+document.addEventListener("click",e=>{if(e.target.closest("[data-planpdf]")){planPdf()}else if(e.target.closest("[data-planprint]")){document.body.classList.add("print-plan");const off=()=>{document.body.classList.remove("print-plan");window.removeEventListener("afterprint",off)};window.addEventListener("afterprint",off);window.print()}});
+
 
 /* ---------- Arranque ---------- */
 try{applyOverrides()}catch(e){}
