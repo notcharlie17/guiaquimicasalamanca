@@ -1,4 +1,135 @@
 {
- "generado": "2026-11-14T19:21:07.365Z",
- "archivos": []
+ "generado": "2026-11-14T19:37:02.529Z",
+ "archivos": [
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Hojas oficiales 2026-27",
+   "nombre": "2026-27_QAI Problemas Tema 5 (hoja 1).pdf",
+   "size": 774068,
+   "hash": "d61f2912a1c014e95440364c1634ca99b2db99857ccb9f531339828d86b14d43",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Hojas%20oficiales%202026-27/2026-27_QAI%20Problemas%20Tema%205%20(hoja%201).pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Problemas/Hojas oficiales 2026-27",
+   "nombre": "2026-27_QAI_Hoja1_Problemas Tema 3. Enunciados.pdf",
+   "size": 1423636,
+   "hash": "761dc6e463902d68c61dac55550ee1bbb73a18dfb4ae4ebbd75caa12609935be",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Problemas/Hojas%20oficiales%202026-27/2026-27_QAI_Hoja1_Problemas%20Tema%203.%20Enunciados.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "QAI Tema 3 (2026-2027) BN.pdf",
+   "size": 672652,
+   "hash": "fecb8765bb9c2436bc6c06c0d8eb5affbe7d697a7ce1824d4888303519a14a0e",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/QAI%20Tema%203%20(2026-2027)%20BN.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "QAI Tema 3 (2026-2027) Color.pdf",
+   "size": 717682,
+   "hash": "ef17aeab363f037dd6e96342da441a1a373ccd329d9e1352011dc05e8c56335d",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/QAI%20Tema%203%20(2026-2027)%20Color.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "QAI.- Tema 2 (2026-2027) BN.pdf",
+   "size": 849970,
+   "hash": "3e173eb6141b6977b0486af35878b47239a189acb1d7fd33df3ee256723fa2fe",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/QAI.-%20Tema%202%20(2026-2027)%20BN.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "QAI.- Tema 2 (2026-2027) Color.pdf",
+   "size": 823459,
+   "hash": "dba597c63f1745c5e730f5b2884d9d1b8e0e79273f7909553ace5fcc6187fd13",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/QAI.-%20Tema%202%20(2026-2027)%20Color.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "QAI.- Tema 4 (2026-2027) BN.pdf",
+   "size": 395432,
+   "hash": "e6b276f27feba8c0d56194681d0c2e1134fbcdd3e76eeb875a897454bce9517d",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/QAI.-%20Tema%204%20(2026-2027)%20BN.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "QAI.- Tema 4 (2026-2027) Color.pdf",
+   "size": 324770,
+   "hash": "deb408dc70a4bded7b95a61fbece604f19b35e44a441f3ff344cdec418ec04c8",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/QAI.-%20Tema%204%20(2026-2027)%20Color.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "QAI.-Tema 1 (2026-2027) BN.pdf",
+   "size": 449489,
+   "hash": "816ed76163d09e509940980d67ecd9bf324177d036896da1beefe75c34f17303",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/QAI.-Tema%201%20(2026-2027)%20BN.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "QAI.-Tema 1 (2026-2027) Color.pdf",
+   "size": 522291,
+   "hash": "953dc2c8e40ce49048f0c9aff1dba3e49bc91429ec808e472c8cca2917752412",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/QAI.-Tema%201%20(2026-2027)%20Color.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "Tema 5 2026-2027 BN.pdf",
+   "size": 3416424,
+   "hash": "9477c3495251fa599a2c445c4f4ea3a8478418fb749c0ae9f4efc993ccc551ef",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/Tema%205%202026-2027%20BN.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Diapositivas oficiales 2026-27",
+   "nombre": "Tema 5 2026-2027 Color.pdf",
+   "size": 3946628,
+   "hash": "f113f65b4aa7fb79044a681e1bbea078ba00506d4b662decd901e5137d5aa652",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Diapositivas%20oficiales%202026-27/Tema%205%202026-2027%20Color.pdf"
+  },
+  {
+   "curso": 2,
+   "plan": "",
+   "asignatura": "Química Analítica I",
+   "ruta": "Teoría/Material complementario",
+   "nombre": "Construcción de un diagrama logarítmico.pdf",
+   "size": 191174,
+   "hash": "3b8ff694d2772e890bba8937c20f20a742a3d00f094c7a2f6803ae3e715a0c4d",
+   "url": "docs/2%C2%BA%20Curso/Qu%C3%ADmica%20Anal%C3%ADtica%20I/Teor%C3%ADa/Material%20complementario/Construcci%C3%B3n%20de%20un%20diagrama%20logar%C3%ADtmico.pdf"
+  }
+ ]
 }
